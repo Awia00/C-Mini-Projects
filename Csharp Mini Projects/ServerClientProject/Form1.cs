@@ -21,11 +21,13 @@ namespace ServerClientProject
         public StreamWriter STW;
         public string receive;
         public string textToSend;
+        private Func<string, string> privateKey;
+        private Func<string, string> publicKey; 
 
         public Form1()
         {
             InitializeComponent();
-
+            textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckKeys);
             IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName()); // get my IP
             foreach (var address in localIP)
             {
@@ -34,6 +36,37 @@ namespace ServerClientProject
                     textBox6.Text = address.ToString();
                 }
             }
+        }
+
+        private void createKeys()
+        {
+            privateKey = new Func<string, string>(privateKeyMethod);
+        }
+
+        private string publicKeyMethod(string input)
+        {
+            string tempOutput = "";
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                tempOutput += (int)input.Substring(i, 1).ToCharArray()[0] + "-";
+            }
+            return tempOutput;
+        }
+        private string privateKeyMethod(string input)
+        {
+            string tempOutput = "";
+            string[] inputChars = input.Split('-');
+            foreach (var stringChar in inputChars)
+            {
+                if (!string.IsNullOrEmpty(stringChar))
+                {
+                    Console.WriteLine(stringChar);
+                    tempOutput += (char)Int32.Parse(stringChar);
+                }
+            }
+            Console.WriteLine(tempOutput);
+            return tempOutput;
         }
 
         private void button2_Click(object sender, EventArgs e) // Start Server
@@ -57,7 +90,7 @@ namespace ServerClientProject
                 {
                     receive = STR.ReadLine();
                     this.textBox2.Invoke(
-                        new MethodInvoker(delegate() { textBox2.AppendText("You : " + receive + "\n"); }));
+                        new MethodInvoker(delegate() { textBox2.AppendText("Encrypted: " + receive + " Decrypted: " + privateKeyMethod(receive) + "\n"); }));
                     receive = "";
                 }
                 catch (Exception ex)
@@ -71,7 +104,7 @@ namespace ServerClientProject
         {
             if (client.Connected)
             {
-                STW.WriteLine(textToSend);
+                STW.WriteLine(publicKeyMethod(textToSend));
                 this.textBox2.Invoke(new MethodInvoker(delegate() { textBox2.AppendText("Me : " + textToSend + "\n"); }));
             }
             else
@@ -110,10 +143,23 @@ namespace ServerClientProject
         {
             if (textBox1.Text != "")
             {
-                textToSend = textBox1.Text;
+                textToSend = textBox1.Text.Trim();
                 backgroundWorker2.RunWorkerAsync();
             }
             textBox1.Text = "";
+        }
+
+        private void CheckKeys(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                if (textBox1.Text != "")
+                {
+                    textToSend = textBox1.Text.Trim();
+                    backgroundWorker2.RunWorkerAsync();
+                }
+                textBox1.Text = "";
+            }
         }
     }
 }
