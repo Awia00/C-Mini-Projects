@@ -1,0 +1,11 @@
+﻿<Window x:Class="SierpinskiTriangleProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Width="1000" Height="910" Topmost="True" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Canvas x:Name="Canvas" Margin="10,10,-10,-10"/>
+        <Button Content="Render" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" Click="Button_Click"/>
+        <TextBox x:Name="DepthTextBox" Height="23" TextWrapping="Wrap" Text="5" Width="74" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,37"/>
+
+    </Grid>
+</Window>
