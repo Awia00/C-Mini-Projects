@@ -28,10 +28,10 @@ namespace SierpinskiTriangleProject
 
         private void NewTriangle(PointCollection newTriangle, int currentDepth)
         {
-            DrawInverseTriangle(newTriangle);
             currentDepth++;
-            if (depth > currentDepth)
+            if (depth >= currentDepth)
             {
+                DrawInverseTriangle(newTriangle);
                 double newLength = (newTriangle[1].X - newTriangle[0].X)/2;
                 PointCollection next1Triangle = new PointCollection(new List<Point>()
                 {
