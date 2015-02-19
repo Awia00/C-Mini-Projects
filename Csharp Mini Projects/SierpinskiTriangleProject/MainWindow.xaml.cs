@@ -77,7 +77,7 @@ namespace SierpinskiTriangleProject
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double height = Canvas.ActualHeight - 10;
+            double height = Canvas.ActualHeight;
             int.TryParse(DepthTextBox.Text, out depth);
             Canvas.Children.Clear();
             PointCollection originalTriangle = new PointCollection(new List<Point>()
