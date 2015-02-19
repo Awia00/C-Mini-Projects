@@ -21,6 +21,7 @@ namespace SierpinskiTriangleProject
     public partial class MainWindow : Window
     {
         private int depth = 5;
+        private SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(255,255,255));
         public MainWindow()
         {
             InitializeComponent();
@@ -70,7 +71,7 @@ namespace SierpinskiTriangleProject
             });
             Canvas.Children.Add(new Polygon()
             {
-                Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                Fill = brush,
                 Points = secondTriangle,
             });
         }
