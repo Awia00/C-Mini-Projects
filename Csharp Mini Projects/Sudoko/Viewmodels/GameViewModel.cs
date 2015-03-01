@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using Sudoko.Annotations;
@@ -13,6 +16,21 @@ namespace Sudoko.Viewmodels
 {
     public class GameViewModel : INotifyPropertyChanged
     {
+        public GameViewModel()
+        {
+            SolveTime = "00:00:000";
+            SolveEnabled = true;
+            GameList = new ObservableCollection<ObservableCollection<int>>();
+            for (int i = 0; i < 9; i++)
+            {
+                GameList.Add(new ObservableCollection<int>());
+                for (int j = 0; j < 9; j++)
+                {
+                    GameList[i].Add(i);
+                }
+            }
+        }
+        #region Databindings
         /// <summary>
         /// The game array is created in the following form
         /// [0,0 0,1 0,2] [1,0 1,1 1,2] [2,0 2,1 2,2] 
@@ -28,25 +46,90 @@ namespace Sudoko.Viewmodels
         /// [6,6 6,7 6,8] [7,6 7,7 7,8] [8,6 8,7 8,8] 
         /// </summary>
         public ObservableCollection<ObservableCollection<int>> GameList { get; set; }
-        public GameViewModel()
+
+        
+        private int _timerMiliSeconds;
+
+        public int TimerMiliSeconds
         {
-            GameList = new ObservableCollection<ObservableCollection<int>>();
-            for (int i = 0; i < 9; i++)
+            get { return _timerMiliSeconds; }
+            set
             {
-                GameList.Add(new ObservableCollection<int>());
-                for (int j = 0; j < 9; j++)
+                if (_timerMiliSeconds == 99)
                 {
-                    GameList[i].Add(i);
+                    _timerMiliSeconds = 0;
+                    TimerSeconds++;
                 }
+                else _timerMiliSeconds = value;
             }
         }
+        private int _timerSeconds;
+        public int TimerSeconds
+        {
+            get { return _timerSeconds; }
+            set
+            {
+                if (_timerSeconds == 59)
+                {
+                    _timerSeconds = 0;
+                    TimerMinutes++;
+                }
+                else _timerSeconds = value;
+            }
+        }
+
+        public int TimerMinutes { get; set; }
+
+        private string _solveTime;
+        public string SolveTime
+        {
+            get { return _solveTime; }
+            set
+            {
+                _solveTime = value;
+                NotifyPropertyChanged("SolveTime");
+            }
+        }
+
+        private bool _solveEnabled;
+        public bool SolveEnabled
+        {
+            get { return _solveEnabled; }
+            set
+            {
+                _solveEnabled = value;
+                NotifyPropertyChanged("SolveEnabled");
+            }
+        }
+        #endregion Databindings
         #region Actions
+
         /// <summary>
         /// This method gets called by the solve button.
         /// </summary>
         public async void Solve()
         {
-            // Remove this and put the solving algorithm in here.
+            SolveEnabled = false;
+            SolveTime = "00:00:000";
+            TimerMiliSeconds = 0;
+            TimerMinutes = 0;
+            TimerSeconds = 0;
+
+            Stopwatch sw = Stopwatch.StartNew();
+
+            await Task.Run(() => SolvePuzzle());
+
+            sw.Stop();
+            SolveTime = sw.Elapsed + "";
+            SolveEnabled = true;
+        }
+
+        /// <summary>
+        /// This method holds the starting point of the algorithm to solve the sudoku
+        /// </summary>
+        private void SolvePuzzle()
+        {
+            // remove this part and replace with your own
             GameList.Clear();
             for (int i = 0; i < 9; i++)
             {
@@ -54,8 +137,23 @@ namespace Sudoko.Viewmodels
                 for (int j = 0; j < 9; j++)
                 {
                     GameList[i].Add(j);
+                    Thread.Sleep(100);
                 }
             }
+        }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            TimerMiliSeconds++;
+
+            string minutes = TimerMinutes.ToString();
+            if (TimerMinutes < 10) minutes = "0" + TimerMinutes;
+            string seconds = TimerSeconds.ToString();
+            if (TimerSeconds < 10) seconds = "0" + TimerSeconds;
+            string miliseconds = TimerMiliSeconds.ToString();
+            if (TimerMiliSeconds < 10) miliseconds = "0" + TimerMiliSeconds;
+
+            SolveTime = minutes + ":" + seconds + ":" + miliseconds;
         }
 
         #endregion
