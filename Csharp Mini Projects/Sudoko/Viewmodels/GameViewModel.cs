@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Sudoko.Annotations;
 
 namespace Sudoko.Viewmodels
@@ -21,16 +22,67 @@ namespace Sudoko.Viewmodels
             SolveTime = "00:00:000";
             SolveEnabled = true;
             GameList = new ObservableCollection<ObservableCollection<int>>();
+
+            PresetGame();
+        }
+
+        public void PresetGame()
+        {
             for (int i = 0; i < 9; i++)
             {
                 GameList.Add(new ObservableCollection<int>());
                 for (int j = 0; j < 9; j++)
                 {
-                    GameList[i].Add(i);
+                    GameList[i].Add(0);
                 }
             }
+            GameList[0][1] = 6;
+            GameList[0][3] = 5;
+            GameList[0][4] = 3;
+            GameList[0][5] = 7;
+            GameList[0][7] = 4;
+
+            GameList[1][0] = 3;
+            GameList[1][4] = 9;
+            GameList[1][8] = 6;
+
+            GameList[2][0] = 8;
+            GameList[2][2] = 4;
+            GameList[2][6] = 3;
+            GameList[2][8] = 7;
+
+            GameList[3][1] = 9;
+            GameList[3][6] = 7;
+            GameList[3][7] = 1;
+            GameList[3][8] = 3;
+
+            GameList[4][1] = 5;
+            GameList[4][2] = 1;
+            GameList[4][6] = 6;
+            GameList[4][7] = 2;
+
+            GameList[5][0] = 2;
+            GameList[5][1] = 3;
+            GameList[5][2] = 8;
+            GameList[5][7] = 4;
+
+            GameList[6][0] = 3;
+            GameList[6][2] = 6;
+            GameList[6][6] = 1;
+            GameList[6][8] = 2;
+
+            GameList[7][0] = 4;
+            GameList[7][4] = 6;
+            GameList[7][8] = 9;
+
+            GameList[8][1] = 1;
+            GameList[8][3] = 5;
+            GameList[8][4] = 2;
+            GameList[8][5] = 3;
+            GameList[8][7] = 8;
         }
         #region Databindings
+
         /// <summary>
         /// The game array is created in the following form
         /// [0,0 0,1 0,2] [1,0 1,1 1,2] [2,0 2,1 2,2] 
@@ -46,39 +98,6 @@ namespace Sudoko.Viewmodels
         /// [6,6 6,7 6,8] [7,6 7,7 7,8] [8,6 8,7 8,8] 
         /// </summary>
         public ObservableCollection<ObservableCollection<int>> GameList { get; set; }
-
-        
-        private int _timerMiliSeconds;
-
-        public int TimerMiliSeconds
-        {
-            get { return _timerMiliSeconds; }
-            set
-            {
-                if (_timerMiliSeconds == 99)
-                {
-                    _timerMiliSeconds = 0;
-                    TimerSeconds++;
-                }
-                else _timerMiliSeconds = value;
-            }
-        }
-        private int _timerSeconds;
-        public int TimerSeconds
-        {
-            get { return _timerSeconds; }
-            set
-            {
-                if (_timerSeconds == 59)
-                {
-                    _timerSeconds = 0;
-                    TimerMinutes++;
-                }
-                else _timerSeconds = value;
-            }
-        }
-
-        public int TimerMinutes { get; set; }
 
         private string _solveTime;
         public string SolveTime
@@ -111,9 +130,6 @@ namespace Sudoko.Viewmodels
         {
             SolveEnabled = false;
             SolveTime = "00:00:000";
-            TimerMiliSeconds = 0;
-            TimerMinutes = 0;
-            TimerSeconds = 0;
 
             Stopwatch sw = Stopwatch.StartNew();
 
@@ -130,30 +146,107 @@ namespace Sudoko.Viewmodels
         private void SolvePuzzle()
         {
             // remove this part and replace with your own
-            GameList.Clear();
-            for (int i = 0; i < 9; i++)
+            //for (int i = 0; i < 9; i++)
+            //{
+            //    GameList.Add(new ObservableCollection<int>());
+            //    for (int j = 0; j < 9; j++)
+            //    {
+            //        GameList[i].Add(j);
+            //    }
+            //}
+            while (GameList.Select(ints =>ints).Any(ints => ints.Contains(0)))
             {
-                GameList.Add(new ObservableCollection<int>());
-                for (int j = 0; j < 9; j++)
+                for (int index = 0; index < GameList.Count; index++)
                 {
-                    GameList[i].Add(j);
-                    Thread.Sleep(100);
+                    var box = GameList[index];
+                    for (int i = 0; i < box.Count; i++)
+                    {
+                        int spot = box[i];
+                        if (spot == 0)
+                        {
+                            List<int> validNumbers = new List<int>();
+                            for (int j = 1; j <= 9; j++)
+                            {
+                                if (CheckValidity(j, index, i))
+                                {
+                                    validNumbers.Add(j);
+                                }
+                            }
+                            if (validNumbers.Count == 1)
+                            {
+                                box[i] = validNumbers[0];
+                            }
+                        }
+                    }
                 }
             }
+            
         }
 
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        private bool CheckValidity(int number, int boxIndex, int spotIndex)
         {
-            TimerMiliSeconds++;
+            return IsNotInOwnBox(number, boxIndex) && IsNotInColoumn(number, boxIndex, spotIndex) && IsNotInRow(number, boxIndex, spotIndex);
+        }
 
-            string minutes = TimerMinutes.ToString();
-            if (TimerMinutes < 10) minutes = "0" + TimerMinutes;
-            string seconds = TimerSeconds.ToString();
-            if (TimerSeconds < 10) seconds = "0" + TimerSeconds;
-            string miliseconds = TimerMiliSeconds.ToString();
-            if (TimerMiliSeconds < 10) miliseconds = "0" + TimerMiliSeconds;
+        private bool IsNotInRow(int number, int boxIndex, int spotIndex)
+        {
+            foreach (var spot in GetRow(boxIndex,spotIndex))
+            {
+                if (spot == number) return false;
+            }
+            return true;
+        }
 
-            SolveTime = minutes + ":" + seconds + ":" + miliseconds;
+        private bool IsNotInColoumn(int number, int boxIndex, int spotIndex)
+        {
+            foreach (var spot in GetColoumn(boxIndex, spotIndex))
+            {
+                if (spot == number) return false;
+            }
+            return true;
+        }
+
+        private bool IsNotInOwnBox(int number, int boxIndex)
+        {
+            foreach (var spot in GameList[boxIndex])
+            {
+                if (spot == number) return false;
+            }
+            return true;
+        }
+        private List<int> GetRow(int boxIndex, int spotIndex)
+        {
+            int firstBox = boxIndex-(boxIndex % 3);
+            int firstSpot = spotIndex-(spotIndex % 3);
+            var list = new List<int>();
+            for (int i = firstBox; i < firstBox+3; i++)
+            {
+                for (int j = firstSpot; j < firstSpot+3; j++)
+                {
+                    if (GameList[i][j] != 0)
+                    {
+                        list.Add(GameList[i][j]);
+                    }
+                }
+            }
+            return list;
+        }
+        private List<int> GetColoumn(int boxIndex, int spotIndex)
+        {
+            int firstBox = boxIndex%3;
+            int firstSpot = spotIndex%3;
+            var list = new List<int>();
+            for (int i = firstBox; i < GameList.Count; i += 3)
+            {
+                for (int j = firstSpot; j < GameList[i].Count; j += 3)
+                {
+                    if (GameList[i][j] != 0)
+                    {
+                        list.Add(GameList[i][j]);
+                    }
+                }
+            }
+            return list;
         }
 
         #endregion
