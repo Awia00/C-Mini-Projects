@@ -145,17 +145,10 @@ namespace Sudoko.Viewmodels
         /// </summary>
         private void SolvePuzzle()
         {
-            // remove this part and replace with your own
-            //for (int i = 0; i < 9; i++)
-            //{
-            //    GameList.Add(new ObservableCollection<int>());
-            //    for (int j = 0; j < 9; j++)
-            //    {
-            //        GameList[i].Add(j);
-            //    }
-            //}
-            while (GameList.Select(ints =>ints).Any(ints => ints.Contains(0)))
+            bool changed = true;
+            while (GameList.Select(ints => ints).Any(ints => ints.Contains(0)) && changed)
             {
+                changed = false;
                 for (int index = 0; index < GameList.Count; index++)
                 {
                     var box = GameList[index];
@@ -175,6 +168,7 @@ namespace Sudoko.Viewmodels
                             if (validNumbers.Count == 1)
                             {
                                 box[i] = validNumbers[0];
+                                changed = true;
                             }
                         }
                     }
