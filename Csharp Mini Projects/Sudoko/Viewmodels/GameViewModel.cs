@@ -23,10 +23,10 @@ namespace Sudoko.Viewmodels
             SolveEnabled = true;
             GameList = new ObservableCollection<ObservableCollection<int>>();
 
-            PresetGame();
+            PresetGame2();
         }
 
-        public void PresetGame()
+        public void PresetGame1()
         {
             GameList.Clear();
             for (int i = 0; i < 9; i++)
@@ -81,6 +81,54 @@ namespace Sudoko.Viewmodels
             GameList[8][4] = 2;
             GameList[8][5] = 3;
             GameList[8][7] = 8;
+        }
+
+        public void PresetGame2()
+        {
+            GameList.Clear();
+            for (int i = 0; i < 9; i++)
+            {
+                GameList.Add(new ObservableCollection<int>());
+                for (int j = 0; j < 9; j++)
+                {
+                    GameList[i].Add(0);
+                }
+            }
+            GameList[0][0] = 1;
+            GameList[0][4] = 2;
+            GameList[0][5] = 3;
+
+            GameList[1][2] = 5;
+            GameList[1][3] = 4;
+            GameList[1][5] = 6;
+
+            GameList[2][2] = 4;
+            GameList[2][4] = 5;
+            GameList[2][7] = 6;
+
+            GameList[3][0] = 9;
+            GameList[3][2] = 4;
+            GameList[3][7] = 5;
+
+            GameList[4][3] = 5;
+            GameList[4][4] = 6;
+            GameList[4][5] = 7;
+
+            GameList[5][1] = 7;
+            GameList[5][6] = 8;
+            GameList[5][8] = 3;
+
+            GameList[6][1] = 4;
+            GameList[6][4] = 3;
+            GameList[6][6] = 2;
+
+            GameList[7][3] = 7;
+            GameList[7][5] = 1;
+            GameList[7][6] = 8;
+
+            GameList[8][3] = 9;
+            GameList[8][4] = 8;
+            GameList[8][8] = 7;
         }
         #region Databindings
 
@@ -170,6 +218,7 @@ namespace Sudoko.Viewmodels
                             {
                                 box[i] = validNumbers[0];
                                 changed = true;
+                                //Thread.Sleep(100);
                             }
                         }
                     }
