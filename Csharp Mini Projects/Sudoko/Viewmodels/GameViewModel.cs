@@ -28,6 +28,7 @@ namespace Sudoko.Viewmodels
 
         public void PresetGame()
         {
+            GameList.Clear();
             for (int i = 0; i < 9; i++)
             {
                 GameList.Add(new ObservableCollection<int>());
@@ -146,7 +147,7 @@ namespace Sudoko.Viewmodels
         private void SolvePuzzle()
         {
             bool changed = true;
-            while (GameList.Select(ints => ints).Any(ints => ints.Contains(0)) && changed)
+            while (GameList.Any(ints => ints.Contains(0)) && changed)
             {
                 changed = false;
                 for (int index = 0; index < GameList.Count; index++)
