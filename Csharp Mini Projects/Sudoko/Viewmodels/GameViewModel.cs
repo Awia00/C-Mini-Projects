@@ -201,12 +201,16 @@ namespace Sudoko.Viewmodels
                 for (int index = 0; index < GameList.Count; index++)
                 {
                     var box = GameList[index];
+
+                    var spotListNumbers = new List<List<int>>();
+
                     for (int i = 0; i < box.Count; i++)
                     {
                         int spot = box[i];
+                        var validNumbers = new List<int>();
                         if (spot == 0)
                         {
-                            List<int> validNumbers = new List<int>();
+                            
                             for (int j = 1; j <= 9; j++)
                             {
                                 if (CheckValidity(j, index, i))
@@ -214,6 +218,7 @@ namespace Sudoko.Viewmodels
                                     validNumbers.Add(j);
                                 }
                             }
+
                             if (validNumbers.Count == 1)
                             {
                                 box[i] = validNumbers[0];
@@ -221,10 +226,43 @@ namespace Sudoko.Viewmodels
                                 //Thread.Sleep(100);
                             }
                         }
+                        spotListNumbers.Add(validNumbers);
                     }
+                    bool changedBox = CheckBoxValidSpots(index, spotListNumbers);
+                    if (!changed) changed = changedBox;
                 }
             }
             
+        }
+
+        private bool CheckBoxValidSpots(int boxIndex, List<List<int>> list)
+        {
+            var box = GameList[boxIndex];
+            bool isChanged = false;
+
+            for (int i = 0; i < box.Count; i++)
+            {
+                if (list[i].Count > 1)
+                {
+                    foreach (var validNumber in list[i])
+                    {
+                        bool isAlone = true;
+                        foreach (var otherlist in list)
+                        {
+                            if (otherlist.Contains(validNumber) && otherlist != list[i])
+                            {
+                                isAlone = false;
+                            }
+                        }
+                        if (isAlone)
+                        {
+                            isChanged = true;
+                            box[i] = validNumber;
+                        }
+                    }
+                }
+            }
+            return isChanged;
         }
 
         private bool CheckValidity(int number, int boxIndex, int spotIndex)
