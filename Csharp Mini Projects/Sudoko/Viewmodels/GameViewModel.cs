@@ -19,6 +19,7 @@ namespace Sudoko.Viewmodels
     {
         public GameViewModel()
         {
+            GameListSaved = new Stack<ObservableCollection<ObservableCollection<int>>>();
             SolveTime = "00:00:000";
             SolveEnabled = true;
             GameList = new ObservableCollection<ObservableCollection<int>>();
@@ -188,6 +189,7 @@ namespace Sudoko.Viewmodels
         /// [6,6 6,7 6,8] [7,6 7,7 7,8] [8,6 8,7 8,8] 
         /// </summary>
         public ObservableCollection<ObservableCollection<int>> GameList { get; set; }
+        private Stack<ObservableCollection<ObservableCollection<int>>> GameListSaved { get; set; }
 
         private string _solveTime;
         public string SolveTime
@@ -264,7 +266,7 @@ namespace Sudoko.Viewmodels
                             {
                                 box[i] = validNumbers[0];
                                 changed = true;
-                                Thread.Sleep(100);
+                                //Thread.Sleep(100);
                             }
                         }
                         spotListNumbers.Add(validNumbers);
@@ -272,11 +274,92 @@ namespace Sudoko.Viewmodels
                     bool changedBox = CheckBoxValidSpots(index, spotListNumbers);
                     if (!changed) changed = changedBox;
                 }
+
+                if (!changed)
+                {
+                    GuessNextMove();
+                }
             }
-            
         }
 
-        private bool CheckBoxValidSpots(int boxIndex, List<List<int>> list)
+        private void GuessNextMove()
+        {
+            var savedGameList = new ObservableCollection<ObservableCollection<int>>();
+            foreach (var box in GameList)
+            {
+                savedGameList.Add(new ObservableCollection<int>(box));
+            }
+            GameListSaved.Push(savedGameList);
+
+            var spotListNumbers = new List<List<int>>();
+
+            for (int index = 0; index < GameList.Count; index++)
+            {
+                var box = GameList[index];
+
+                for (int i = 0; i < box.Count; i++)
+                {
+                    int spot = box[i];
+                    var validNumbers = new List<int>();
+                    if (spot == 0)
+                    {
+
+                        for (int j = 1; j <= 9; j++)
+                        {
+                            if (CheckValidity(j, index, i))
+                            {
+                                validNumbers.Add(j);
+                            }
+                        }
+                    }
+                    spotListNumbers.Add(validNumbers);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    var temp = spotListNumbers[i];
+                    if (temp.Count == 2)
+                    {
+                        box[i] = temp[0];
+                        SolvePuzzle();
+
+                        if (!CheckIfSolved())
+                        {
+                            GameList = GameListSaved.Peek();
+                            NotifyPropertyChanged("");
+                            box[i] = temp[1];
+                            SolvePuzzle();
+                            if (!CheckIfSolved())
+                            {
+                                GameList = GameListSaved.Peek();
+                                NotifyPropertyChanged("");
+                            }
+                        }
+                    }
+                }
+            }
+            GameList = GameListSaved.Pop();
+            NotifyPropertyChanged("");
+        }
+
+        private bool CheckIfSolved()
+        {
+            for (int index = 0; index < GameList.Count; index++)
+            {
+                var box = GameList[index];
+                for (int i = 0; i < box.Count; i++)
+                {
+                    int spot = box[i];
+                    if (spot == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private bool CheckBoxValidSpots(int boxIndex, IList<List<int>> list)
         {
             var box = GameList[boxIndex];
             bool isChanged = false;
@@ -297,7 +380,7 @@ namespace Sudoko.Viewmodels
                         }
                         if (isAlone)
                         {
-                            Thread.Sleep(100);
+                            //Thread.Sleep(100);
                             isChanged = true;
                             box[i] = validNumber;
                         }
@@ -338,7 +421,7 @@ namespace Sudoko.Viewmodels
             }
             return true;
         }
-        private List<int> GetRow(int boxIndex, int spotIndex)
+        private IEnumerable<int> GetRow(int boxIndex, int spotIndex)
         {
             int firstBox = boxIndex-(boxIndex % 3);
             int firstSpot = spotIndex-(spotIndex % 3);
@@ -355,7 +438,7 @@ namespace Sudoko.Viewmodels
             }
             return list;
         }
-        private List<int> GetColoumn(int boxIndex, int spotIndex)
+        private IEnumerable<int> GetColoumn(int boxIndex, int spotIndex)
         {
             int firstBox = boxIndex%3;
             int firstSpot = spotIndex%3;
