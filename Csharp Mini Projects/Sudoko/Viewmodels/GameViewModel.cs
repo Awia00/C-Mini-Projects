@@ -23,7 +23,7 @@ namespace Sudoko.Viewmodels
             SolveEnabled = true;
             GameList = new ObservableCollection<ObservableCollection<int>>();
 
-            PresetGame2();
+            PresetGame3();
         }
 
         public void PresetGame1()
@@ -130,6 +130,47 @@ namespace Sudoko.Viewmodels
             GameList[8][4] = 8;
             GameList[8][8] = 7;
         }
+
+        public void PresetGame3()
+        {
+            GameList.Clear();
+            for (int i = 0; i < 9; i++)
+            {
+                GameList.Add(new ObservableCollection<int>());
+                for (int j = 0; j < 9; j++)
+                {
+                    GameList[i].Add(0);
+                }
+            }
+            GameList[0][8] = 8;
+
+            GameList[1][1] = 3;
+            GameList[1][2] = 7;
+            GameList[1][3] = 6;
+
+            GameList[2][0] = 6;
+            GameList[2][4] = 9;
+            GameList[2][8] = 4;
+
+            GameList[3][1] = 9;
+            GameList[3][3] = 6;
+            GameList[3][6] = 3;
+
+            GameList[5][2] = 1;
+            GameList[5][5] = 9;
+            GameList[5][7] = 4;
+
+            GameList[6][0] = 7;
+            GameList[6][4] = 1;
+            GameList[6][8] = 2;
+
+            GameList[7][5] = 9;
+            GameList[7][6] = 5;
+            GameList[7][7] = 4;
+
+            GameList[8][0] = 8;
+        }
+
         #region Databindings
 
         /// <summary>
@@ -223,7 +264,7 @@ namespace Sudoko.Viewmodels
                             {
                                 box[i] = validNumbers[0];
                                 changed = true;
-                                //Thread.Sleep(100);
+                                Thread.Sleep(100);
                             }
                         }
                         spotListNumbers.Add(validNumbers);
@@ -256,6 +297,7 @@ namespace Sudoko.Viewmodels
                         }
                         if (isAlone)
                         {
+                            Thread.Sleep(100);
                             isChanged = true;
                             box[i] = validNumber;
                         }
