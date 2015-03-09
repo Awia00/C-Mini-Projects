@@ -237,6 +237,7 @@ namespace Sudoko.Viewmodels
         /// </summary>
         private void SolvePuzzle()
         {
+            if (CheckIfSolved()) return;
             bool changed = true;
             while (GameList.Any(ints => ints.Contains(0)) && changed)
             {
@@ -278,6 +279,7 @@ namespace Sudoko.Viewmodels
                 if (!changed)
                 {
                     GuessNextMove();
+                    changed = true;
                 }
             }
         }
@@ -318,23 +320,20 @@ namespace Sudoko.Viewmodels
                 for (int i = 0; i < 8; i++)
                 {
                     var temp = spotListNumbers[i];
-                    if (temp.Count == 2)
+                    if (temp.Count >= 2)
                     {
-                        box[i] = temp[0];
-                        SolvePuzzle();
-
-                        if (!CheckIfSolved())
+                        foreach (var tempValue in temp)
                         {
-                            GameList = GameListSaved.Peek();
-                            NotifyPropertyChanged("");
-                            box[i] = temp[1];
+                            box[i] = tempValue;
                             SolvePuzzle();
                             if (!CheckIfSolved())
                             {
                                 GameList = GameListSaved.Peek();
                                 NotifyPropertyChanged("");
                             }
+                            else return;
                         }
+                        
                     }
                 }
             }
