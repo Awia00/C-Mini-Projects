@@ -4,10 +4,13 @@
         Title="MainWindow" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0"/>
-        <Grid Grid.Row="1"/>
+        <Border Grid.Row="0" BorderBrush="{DynamicResource PowerToolsBarBorderBrush}" Background="{DynamicResource PowerToolsBarBrush}" BorderThickness="1">
+            <Button Content="New Image" Margin="9,9,0,9" HorizontalAlignment="Left" Width="106"/>
+        </Border>
+        <Grid Grid.Row="1" Background="{DynamicResource BackgroundBrush}"/>
+
     </Grid>
 </Window>
