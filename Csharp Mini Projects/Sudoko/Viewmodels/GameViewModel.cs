@@ -237,9 +237,9 @@ namespace Sudoko.Viewmodels
         /// </summary>
         private void SolvePuzzle()
         {
-            if (CheckIfSolved()) return;
+            if (IsSolved()) return;
             bool changed = true;
-            while (GameList.Any(ints => ints.Contains(0)) && changed)
+            while (!IsSolved() && changed)
             {
                 changed = false;
                 for (int index = 0; index < GameList.Count; index++)
@@ -279,7 +279,6 @@ namespace Sudoko.Viewmodels
                 if (!changed)
                 {
                     GuessNextMove();
-                    changed = true;
                 }
             }
         }
@@ -293,11 +292,10 @@ namespace Sudoko.Viewmodels
             }
             GameListSaved.Push(savedGameList);
 
-            var spotListNumbers = new List<List<int>>();
-
             for (int index = 0; index < GameList.Count; index++)
             {
                 var box = GameList[index];
+                var spotListNumbers = new List<List<int>>();
 
                 for (int i = 0; i < box.Count; i++)
                 {
@@ -326,14 +324,14 @@ namespace Sudoko.Viewmodels
                         {
                             box[i] = tempValue;
                             SolvePuzzle();
-                            if (!CheckIfSolved())
+                            if (!IsSolved())
                             {
-                                GameList = GameListSaved.Peek();
+                                var tempState = GameListSaved.Peek();
+                                GameList = tempState;
                                 NotifyPropertyChanged("");
                             }
                             else return;
                         }
-                        
                     }
                 }
             }
@@ -341,21 +339,9 @@ namespace Sudoko.Viewmodels
             NotifyPropertyChanged("");
         }
 
-        private bool CheckIfSolved()
+        private bool IsSolved()
         {
-            for (int index = 0; index < GameList.Count; index++)
-            {
-                var box = GameList[index];
-                for (int i = 0; i < box.Count; i++)
-                {
-                    int spot = box[i];
-                    if (spot == 0)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return !GameList.Any(ints => ints.Contains(0));
         }
 
         private bool CheckBoxValidSpots(int boxIndex, IList<List<int>> list)

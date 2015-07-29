@@ -1,0 +1,24 @@
+﻿<Application x:Class="ImageManipulationProject.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BackgroundColor"          A="255" R="237" G="241" B="243"/>
+            <Color x:Key="PowerToolsBarColor"       A="255" R="89"  G="171" B="227"/>
+            <Color x:Key="PowerToolsBarBorderColor" A="255" R="62"  G="119" B="158"/>
+            <Color x:Key="TextBoxBackgroundColor"   A="255" R="193" G="197" B="207"/>
+            <Color x:Key="TextBoxTextColor"         A="255" R="44"  G="62"  B="80"/>
+            <Color x:Key="LabelTextColor"           A="255" R="4"   G="7"   B="25"/>
+            <Color x:Key="LabelStatusTextColor"     A="255" R="4"   G="7"   B="25"/>
+
+            <SolidColorBrush x:Key="BackgroundBrush"            Color="{DynamicResource BackgroundColor}"/>
+            <SolidColorBrush x:Key="PowerToolsBarBrush"         Color="{DynamicResource PowerToolsBarColor}"/>
+            <SolidColorBrush x:Key="PowerToolsBarBorderBrush"   Color="{DynamicResource PowerToolsBarBorderColor}"/>
+            <SolidColorBrush x:Key="TextBoxBackgroundBrush"     Color="{DynamicResource TextBoxBackgroundColor}"/>
+            <SolidColorBrush x:Key="TextBoxTextBrush"           Color="{DynamicResource TextBoxTextColor}"/>
+            <SolidColorBrush x:Key="LabelTextBrush"             Color="{DynamicResource LabelTextColor}"/>
+            <SolidColorBrush x:Key="LabelStatusTextBrush"       Color="{DynamicResource LabelStatusTextColor}"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
