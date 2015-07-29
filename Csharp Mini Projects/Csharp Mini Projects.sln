@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerClientProject", "ServerClientProject\ServerClientProject.csproj", "{9CE91216-73F0-4164-837C-C1C9908A38DD}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoko", "Sudoko\Sudoko.csproj", "{FEC85AB9-5E6D-4B12-BF2C-AE1F8777C4DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageManipulationProject", "ImageManipulationProject\ImageManipulationProject.csproj", "{10C7C0B3-BE6B-4B08-B9F0-4276E9E90E9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MariasCMDProgram", "MariasCMDProgram\MariasCMDProgram.csproj", "{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{10C7C0B3-BE6B-4B08-B9F0-4276E9E90E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10C7C0B3-BE6B-4B08-B9F0-4276E9E90E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10C7C0B3-BE6B-4B08-B9F0-4276E9E90E9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

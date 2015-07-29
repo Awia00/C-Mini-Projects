@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>d329fdd5-01d8-4b92-9f39-35aea3209d93</ProjectGuid>
+    <ProjectGuid>{41BF0137-F54C-4B59-8E84-6601EB2EF8F1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MariasCMDProgram</RootNamespace>
