@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EA098FE7-4329-4947-AACF-7B802D71D84D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PingPongServer</RootNamespace>
-    <AssemblyName>PingPongServer</AssemblyName>
+    <RootNamespace>PingPongCommon</RootNamespace>
+    <AssemblyName>PingPongCommon</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,21 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PingPongClient\PingPongClient.csproj">
-      <Project>{FD7450A7-81A2-4CF1-92AB-935CFD36EF94}</Project>
-      <Name>PingPongClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PingPongCommon\PingPongCommon.csproj">
-      <Project>{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}</Project>
-      <Name>PingPongCommon</Name>
-    </ProjectReference>
+    <Compile Include="Received.cs" />
+    <Compile Include="UdpBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

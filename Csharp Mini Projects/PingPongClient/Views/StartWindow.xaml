@@ -1,0 +1,27 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModels="clr-namespace:PingPongClient.ViewModels" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="PingPongClient.Views.StartWindow"
+        Title="StartWindow" Height="370" Width="567">
+    <Window.DataContext>
+        <ViewModels:StartViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="History" VerticalScrollBarVisibility="Visible" Margin="10" TextWrapping="Wrap" Text="{Binding History}" Focusable="False"/>
+        <TextBox x:Name="Message" Margin="10,5" TextWrapping="Wrap" Text="{Binding Message}" Grid.Row="1"/>
+        <TextBox x:Name="Status" Margin="10,5,125,5" TextWrapping="Wrap" Text="{Binding Status}" IsEnabled="False" Grid.Row="2"/>
+        <Button Content="Send" Margin="10,5" VerticalAlignment="Bottom" Grid.Row="2" HorizontalAlignment="Right" Width="110">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SendMessage"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+    </Grid>
+</Window>
