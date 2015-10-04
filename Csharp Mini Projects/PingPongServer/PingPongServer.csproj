@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameController.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

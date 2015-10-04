@@ -13,7 +13,9 @@ namespace PingPongServer
 {
     class ServerConnection : UdpBase
     {
-        private IPEndPoint _listenOn;
+        private readonly IPEndPoint _listenOn;
+        private readonly GameController _gameController;
+        private Dictionary<string, Action> _commands; 
 
         public ServerConnection() : this(new IPEndPoint(IPAddress.Any,32123))
         {
@@ -23,6 +25,13 @@ namespace PingPongServer
         {
             _listenOn = endpoint;
             Client = new UdpClient(_listenOn);
+            _gameController = new GameController();
+            _commands = new Dictionary<string, Action>
+            {
+                { "play", () => _gameController.StartGame() }, 
+                { "pause", () => _gameController.PauseGame() },
+                { "restart", () => _gameController.RestartGame() }
+            };
         }
 
         public void Reply(string message,IPEndPoint endpoint)
@@ -31,31 +40,42 @@ namespace PingPongServer
             Client.Send(datagram, datagram.Length,endpoint);
         }
 
-        static void Main(string[] args)
+        private void StartServer()
         {
-            Console.WriteLine("Starting Server");
+            Console.WriteLine(@"Starting Server");
             //create a new server
-            var server = new ServerConnection();
-
             //start listening for messages and copy the messages back to the client
             var factory = Task.Factory.StartNew(async () =>
             {
                 while (true)
                 {
-                    var received = await server.Receive();
+                    var received = await Receive();
                     Console.WriteLine(@"Message received: " + received.Message);
-                    server.Reply("copy " + received.Message, received.Sender);
-                    if (received.Message == "quit")
-                        break;
+                    Reply("copy " + received.Message, received.Sender);
+                    try
+                    {
+                        _commands[received.Message].Invoke();
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
                 }
             });
-            Console.WriteLine("Listening...");
+            Console.WriteLine(@"Listening...");
+
             string read;
             do
             {
                 read = Console.ReadLine();
             } while (read != "quit");
+            Console.WriteLine(@"Shutting down...");
             factory.Dispose();
+        }
+
+        static void Main(string[] args)
+        {
+            new ServerConnection().StartServer();
         }
     }
 }
