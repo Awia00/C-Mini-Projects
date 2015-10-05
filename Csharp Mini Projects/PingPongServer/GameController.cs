@@ -21,6 +21,7 @@ namespace PingPongServer
 
         private void Tick(object state)
         {
+            GameModel.CheckAndHandleCollision();
             GameModel.Ball.Move();
             Console.WriteLine(GameModel.Ball);
         }
@@ -39,6 +40,23 @@ namespace PingPongServer
         {
             PauseGame();
             GameModel = new GameModel();
+        }
+
+        /// <summary>
+        /// Move Player with id== playerId either up or down depending on the direction parameter.
+        /// </summary>
+        /// <param name="playerId">id of the player</param>
+        /// <param name="direction">1 for up -1 for down.</param>
+        public void MovePlayer(int playerId, int direction)
+        {
+            if (playerId == GameModel.Player1.Id)
+            {
+                GameModel.Player1.Bat.Move(direction/Math.Abs(direction)); // Math.abs to ensure only 1 and -1 is used.
+            }
+            else if (playerId == GameModel.Player2.Id)
+            {
+                GameModel.Player2.Bat.Move(direction / Math.Abs(direction)); // Math.abs to ensure only 1 and -1 is used.
+            }
         }
     }
 }

@@ -17,5 +17,17 @@
         {
             Ball = new BallModel();
         }
+
+        public void CheckAndHandleCollision()
+        {
+            if (Player1.Bat.CheckCollision(Ball))
+            {
+                Ball.Direction = Vector3D.ReflectionVector3D(Ball.Direction, Player1.Bat.Normal);
+            }
+            else if (Player2.Bat.CheckCollision(Ball))
+            {
+                Ball.Direction = Vector3D.ReflectionVector3D(Ball.Direction, Player2.Bat.Normal);
+            }
+        }
     }
 }

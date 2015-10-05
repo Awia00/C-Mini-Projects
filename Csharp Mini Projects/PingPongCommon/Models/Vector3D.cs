@@ -58,7 +58,7 @@ namespace PingPongCommon.Models
             return new Vector3D(v2.X - v1.X, v2.Y - v1.Y);
         }
 
-        private static Vector3D ReflectionVector3D(Vector3D incident, Vector3D normal)
+        public static Vector3D ReflectionVector3D(Vector3D incident, Vector3D normal)
         {
             var incidentLenght = incident.Length;
             var normalizedNormal = normal.Normalize();

@@ -6,8 +6,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using PingPongClient;
 using PingPongCommon;
+using PingPongCommon.DTOs;
 
 namespace PingPongServer
 {
@@ -15,7 +17,7 @@ namespace PingPongServer
     {
         private readonly IPEndPoint _listenOn;
         private readonly GameController _gameController;
-        private Dictionary<string, Action> _commands; 
+        private Dictionary<DtoType, Action<DtoBase>> _commands; 
 
         public ServerConnection() : this(new IPEndPoint(IPAddress.Any,32123))
         {
@@ -26,11 +28,12 @@ namespace PingPongServer
             _listenOn = endpoint;
             Client = new UdpClient(_listenOn);
             _gameController = new GameController();
-            _commands = new Dictionary<string, Action>
+            _commands = new Dictionary<DtoType, Action<DtoBase>>
             {
-                { "play", () => _gameController.StartGame() }, 
-                { "pause", () => _gameController.PauseGame() },
-                { "restart", () => _gameController.RestartGame() }
+                { DtoType.Play, (dto) => _gameController.StartGame() }, 
+                { DtoType.Pause, (dto) => _gameController.PauseGame() },
+                { DtoType.Restart, (dto) => _gameController.RestartGame() },
+                { DtoType.Move, (dto) => _gameController.MovePlayer(((PlayerMoveDto)dto).PlayerId, ((PlayerMoveDto)dto).Direction) }
             };
         }
 
@@ -54,7 +57,8 @@ namespace PingPongServer
                     Reply("copy " + received.Message, received.Sender);
                     try
                     {
-                        _commands[received.Message].Invoke();
+                        var dto = JsonConvert.DeserializeObject<DtoBase>(received.Message);
+                        _commands[dto.DtoType].Invoke(dto);
                     }
                     catch (Exception)
                     {

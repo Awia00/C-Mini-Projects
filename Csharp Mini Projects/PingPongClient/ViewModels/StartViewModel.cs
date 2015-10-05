@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using PingPongClient.Connections;
+using PingPongCommon.DTOs;
 
 namespace PingPongClient.ViewModels
 {
@@ -72,7 +74,6 @@ namespace PingPongClient.ViewModels
             {
                 try
                 {
-                        
                     var received = await client.Receive();
                     reply = received.Message;
                 }
@@ -82,7 +83,26 @@ namespace PingPongClient.ViewModels
                     Debug.Write(ex);
                 }
             });
-            client.Send(Message);
+            DtoBase dto;
+            switch (Message)
+            {
+                case "play":
+                    dto = new CommandDto(DtoType.Play);
+                    client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "pause":
+                    dto = new CommandDto(DtoType.Pause);
+                    client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "restart":
+                    dto = new CommandDto(DtoType.Restart);
+                    client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                default:
+                    client.Send(Message);
+                    break;
+            }
+            client.Send(JsonConvert.SerializeObject(Message));
             await task;
             History += "Reply: " + reply +"\n";
             Message = "";
