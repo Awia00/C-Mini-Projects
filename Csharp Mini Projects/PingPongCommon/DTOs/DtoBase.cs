@@ -11,7 +11,8 @@ namespace PingPongCommon.DTOs
         Move,
         Play,
         Pause,
-        Restart
+        Restart,
+        ObjectState
     }
 
     public abstract class DtoBase

@@ -55,7 +55,7 @@ namespace PingPongCommon.Models
 
         private static Vector3D VectorSubtraction(Vector3D v1, Vector3D v2)
         {
-            return new Vector3D(v2.X - v1.X, v2.Y - v1.Y);
+            return new Vector3D(v1.X - v2.X, v1.Y - v2.Y);
         }
 
         public static Vector3D ReflectionVector3D(Vector3D incident, Vector3D normal)

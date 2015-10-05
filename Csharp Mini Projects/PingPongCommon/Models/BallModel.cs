@@ -18,7 +18,7 @@ namespace PingPongCommon.Models
         {
             Point = new Point2D(0,0);
             Direction = new Vector3D(1,1);
-            Radius = 1;
+            Radius = 5;
         }
 
         public void Move()

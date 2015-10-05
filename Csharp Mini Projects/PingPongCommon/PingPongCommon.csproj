@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DTOs\CommandDto.cs" />
     <Compile Include="DTOs\DtoBase.cs" />
+    <Compile Include="DTOs\ObjectStateDto.cs" />
     <Compile Include="DTOs\PlayerMoveDTO.cs" />
     <Compile Include="Models\BallModel.cs" />
     <Compile Include="Models\BatModel.cs" />

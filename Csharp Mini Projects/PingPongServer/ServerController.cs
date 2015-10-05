@@ -17,7 +17,7 @@ namespace PingPongServer
     {
         private readonly IPEndPoint _listenOn;
         private readonly GameController _gameController;
-        private Dictionary<DtoType, Action<DtoBase>> _commands; 
+        private Dictionary<DtoType, Action<Received>> _commands; 
 
         public ServerConnection() : this(new IPEndPoint(IPAddress.Any,32123))
         {
@@ -28,12 +28,21 @@ namespace PingPongServer
             _listenOn = endpoint;
             Client = new UdpClient(_listenOn);
             _gameController = new GameController();
-            _commands = new Dictionary<DtoType, Action<DtoBase>>
+            _commands = new Dictionary<DtoType, Action<Received>>
             {
-                { DtoType.Play, (dto) => _gameController.StartGame() }, 
-                { DtoType.Pause, (dto) => _gameController.PauseGame() },
-                { DtoType.Restart, (dto) => _gameController.RestartGame() },
-                { DtoType.Move, (dto) => _gameController.MovePlayer(((PlayerMoveDto)dto).PlayerId, ((PlayerMoveDto)dto).Direction) }
+                { DtoType.Play,     received => _gameController.StartGame() }, 
+                { DtoType.Pause,    received => _gameController.PauseGame() },
+                { DtoType.Restart,  received => _gameController.RestartGame()},
+                { DtoType.Move,     received => {
+                    var moveDto = JsonConvert.DeserializeObject<PlayerMoveDto>(received.Message);
+                        _gameController.MovePlayer(moveDto.PlayerId, moveDto.Direction);
+                    } 
+                },
+                { DtoType.ObjectState, received => {
+                        var dto = JsonConvert.SerializeObject(_gameController.GetObjectStateDto());
+                        Reply(dto, received.Sender);
+                    } 
+                }
             };
         }
 
@@ -53,17 +62,18 @@ namespace PingPongServer
                 while (true)
                 {
                     var received = await Receive();
-                    Console.WriteLine(@"Message received: " + received.Message);
-                    Reply("copy " + received.Message, received.Sender);
+                    //Console.WriteLine(@"Message received: " + received.Message);
+                    
                     try
                     {
-                        var dto = JsonConvert.DeserializeObject<DtoBase>(received.Message);
-                        _commands[dto.DtoType].Invoke(dto);
+                        var dto = JsonConvert.DeserializeObject<CommandDto>(received.Message);
+                        _commands[dto.DtoType].Invoke(received);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // ignored
+                        Reply("failed to parse message " + ex, received.Sender );
                     }
+                    //Reply("copy " + received.Message, received.Sender);
                 }
             });
             Console.WriteLine(@"Listening...");

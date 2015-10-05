@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PingPongClient.Connections;
@@ -12,9 +13,46 @@ namespace PingPongClient.ViewModels
 {
     public class StartViewModel : ViewModelBase
     {
+        private readonly ClientConnection _client = ClientConnection.ConnectTo("127.0.0.1", 32123);
+        private int _tickInterval = 100;
+        private Timer _timer;
+
         public StartViewModel()
         {
+            GameViewModel = new GameViewModel();
+            string reply = "";
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        var received = await _client.Receive();
+                        reply = received.Message;
+                        try
+                        {
+                            var dto = JsonConvert.DeserializeObject<ObjectStateDto>(reply);
+                            GameViewModel.Update(dto);
+                        }
+                        catch (Exception)
+                        {
+                            
+                            throw;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        reply = "Reply Failed: " + ex + "\n";
+                        Debug.Write(ex);
+                    }
+                }
+            });
+        }
 
+        public void Tick(object state)
+        {
+            var dto = new ObjectStateDto();
+            _client.Send(JsonConvert.SerializeObject(dto));
         }
 
         #region Properties
@@ -53,6 +91,20 @@ namespace PingPongClient.ViewModels
                 NotifyPropertyChanged("Message");
             }
         }
+
+        private GameViewModel _gameViewModel;
+        public GameViewModel GameViewModel
+        {
+            get
+            {
+                return _gameViewModel;
+            }
+            set
+            {
+                _gameViewModel = value;
+                NotifyPropertyChanged("GameViewModel");
+            }
+        }
         #endregion Properties
 
 
@@ -61,53 +113,48 @@ namespace PingPongClient.ViewModels
         {
             if (!_sendMessageAvailable || Message == "") return;
             _sendMessageAvailable = false;
-
-            Status = "Sending message...";
-            History += Message + "\n";
             
-            //create a new client
-            var client = ClientConnection.ConnectTo("127.0.0.1", 32123);
-
-            string reply = "";
-            //wait for reply messages from server and send them to console 
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    var received = await client.Receive();
-                    reply = received.Message;
-                }
-                catch (Exception ex)
-                {
-                    reply = "Reply Failed: " + ex + "\n";
-                    Debug.Write(ex);
-                }
-            });
             DtoBase dto;
             switch (Message)
             {
                 case "play":
                     dto = new CommandDto(DtoType.Play);
-                    client.Send(JsonConvert.SerializeObject(dto));
+                    _timer = new Timer(Tick, null, DateTime.Now.Second, _tickInterval);
+                    _client.Send(JsonConvert.SerializeObject(dto));
                     break;
                 case "pause":
                     dto = new CommandDto(DtoType.Pause);
-                    client.Send(JsonConvert.SerializeObject(dto));
+                    _timer.Dispose();
+                    _client.Send(JsonConvert.SerializeObject(dto));
                     break;
                 case "restart":
                     dto = new CommandDto(DtoType.Restart);
-                    client.Send(JsonConvert.SerializeObject(dto));
+                    _timer.Dispose();
+                    _client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "move 1 1":
+                    dto = new PlayerMoveDto{Direction = 1, PlayerId = 1};
+                    _client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "move 1 -1":
+                    dto = new PlayerMoveDto { Direction = -1, PlayerId = 1 };
+                    _client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "move 2 1":
+                    dto = new PlayerMoveDto { Direction = 1, PlayerId = 2 };
+                    _client.Send(JsonConvert.SerializeObject(dto));
+                    break;
+                case "move 2 -1":
+                    dto = new PlayerMoveDto { Direction = -1, PlayerId = 2 };
+                    _client.Send(JsonConvert.SerializeObject(dto));
                     break;
                 default:
-                    client.Send(Message);
+                    _client.Send(Message);
                     break;
             }
-            client.Send(JsonConvert.SerializeObject(Message));
-            await task;
-            History += "Reply: " + reply +"\n";
             Message = "";
-            Status = "Done";
             _sendMessageAvailable = true;
+            
         }
     }
 }

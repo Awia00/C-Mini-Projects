@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using PingPongCommon.DTOs;
 using PingPongCommon.Models;
 
 namespace PingPongServer
@@ -11,7 +12,8 @@ namespace PingPongServer
     public class GameController
     {
         public GameModel GameModel { get; set; }
-        private int _tickInterval = 41;
+        private int _tickInterval = 100;
+        private bool isPaused = true;
 
         private Timer _timer;
         public GameController()
@@ -28,11 +30,13 @@ namespace PingPongServer
 
         public void StartGame()
         {
+            isPaused = false;
             _timer = new Timer(Tick, null, DateTime.Now.Second, _tickInterval);
         }
 
         public void PauseGame()
         {
+            isPaused = true;
             _timer.Dispose();
         }
 
@@ -42,6 +46,19 @@ namespace PingPongServer
             GameModel = new GameModel();
         }
 
+        public ObjectStateDto GetObjectStateDto()
+        {
+            return new ObjectStateDto
+            {
+                BallX = (int)GameModel.Ball.Point.X, 
+                BallY = (int)GameModel.Ball.Point.Y,
+                Bat1X = (int)GameModel.Player1.Bat.Point.X,
+                Bat1Y = (int)GameModel.Player1.Bat.Point.Y,
+                Bat2X = (int)GameModel.Player2.Bat.Point.X,
+                Bat2Y = (int)GameModel.Player2.Bat.Point.Y,
+            };
+        }
+
         /// <summary>
         /// Move Player with id== playerId either up or down depending on the direction parameter.
         /// </summary>
@@ -49,6 +66,7 @@ namespace PingPongServer
         /// <param name="direction">1 for up -1 for down.</param>
         public void MovePlayer(int playerId, int direction)
         {
+            if (isPaused) return;
             if (playerId == GameModel.Player1.Id)
             {
                 GameModel.Player1.Bat.Move(direction/Math.Abs(direction)); // Math.abs to ensure only 1 and -1 is used.

@@ -8,9 +8,9 @@ namespace PingPongCommon.Models
         public Vector3D Normal { get; set; }
         public float Height { get; set; }
 
-        private const float Depth = 1;
+        private const float Depth = 10;
 
-        public BatModel(Point2D point, int height, Vector3D normal)
+        public BatModel(Point2D point, float height, Vector3D normal)
         {
             Point = point;
             Height = height;
@@ -26,7 +26,8 @@ namespace PingPongCommon.Models
 
         public void Move(int direction)
         {
-            Point = new Point2D(Point.X, Point.Y + 2 * direction);
+            Point = new Point2D(Point.X, Point.Y + 8 * direction);
+            Console.WriteLine("Bat moved to" + Point);
         }
 
         public override string ToString()
@@ -38,7 +39,7 @@ namespace PingPongCommon.Models
         {
             var xDiff = ball.Point.X - Point.X;
             var yDiff = ball.Point.Y - Point.Y;
-            if (Math.Abs(xDiff) < Depth || Math.Abs(yDiff) < Height/2)
+            if (Math.Abs(xDiff) - ball.Radius < Depth / 2 && Math.Abs(yDiff) - ball.Radius < Height / 2)
             {
                 return true;
             }
