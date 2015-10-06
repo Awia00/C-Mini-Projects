@@ -39,7 +39,7 @@ namespace PingPongCommon.Models
         {
             var xDiff = ball.Point.X - Point.X;
             var yDiff = ball.Point.Y - Point.Y;
-            if (Math.Abs(xDiff) - ball.Radius < Depth / 2 && Math.Abs(yDiff) - ball.Radius < Height / 2)
+            if (Math.Abs(xDiff) < Depth / 2 + ball.Radius && Math.Abs(yDiff) < Height / 2 + ball.Radius)
             {
                 return true;
             }
