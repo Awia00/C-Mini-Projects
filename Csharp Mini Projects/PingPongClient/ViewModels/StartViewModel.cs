@@ -20,6 +20,7 @@ namespace PingPongClient.ViewModels
         public StartViewModel()
         {
             GameViewModel = new GameViewModel();
+            InputViewModel = new InputViewModel(_client);
             string reply = "";
             Task.Run(async () =>
             {
@@ -105,6 +106,20 @@ namespace PingPongClient.ViewModels
                 NotifyPropertyChanged("GameViewModel");
             }
         }
+
+        private InputViewModel _inputViewModel;
+        public InputViewModel InputViewModel
+        {
+            get
+            {
+                return _inputViewModel;
+            }
+            set
+            {
+                _inputViewModel = value;
+                NotifyPropertyChanged("InputViewModel");
+            }
+        }
         #endregion Properties
 
 
@@ -130,22 +145,6 @@ namespace PingPongClient.ViewModels
                 case "restart":
                     dto = new CommandDto(DtoType.Restart);
                     _timer.Dispose();
-                    _client.Send(JsonConvert.SerializeObject(dto));
-                    break;
-                case "move 1 1":
-                    dto = new PlayerMoveDto{Direction = 1, PlayerId = 1};
-                    _client.Send(JsonConvert.SerializeObject(dto));
-                    break;
-                case "move 1 -1":
-                    dto = new PlayerMoveDto { Direction = -1, PlayerId = 1 };
-                    _client.Send(JsonConvert.SerializeObject(dto));
-                    break;
-                case "move 2 1":
-                    dto = new PlayerMoveDto { Direction = 1, PlayerId = 2 };
-                    _client.Send(JsonConvert.SerializeObject(dto));
-                    break;
-                case "move 2 -1":
-                    dto = new PlayerMoveDto { Direction = -1, PlayerId = 2 };
                     _client.Send(JsonConvert.SerializeObject(dto));
                     break;
                 default:

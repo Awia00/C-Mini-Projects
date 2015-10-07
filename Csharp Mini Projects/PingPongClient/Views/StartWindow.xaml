@@ -6,6 +6,12 @@
     <Window.DataContext>
         <ViewModels:StartViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="W" Command="{Binding InputViewModel}" CommandParameter="W"></KeyBinding>
+        <KeyBinding Key="S" Command="{Binding InputViewModel}" CommandParameter="S"></KeyBinding>
+        <KeyBinding Key="Up" Command="{Binding InputViewModel}" CommandParameter="Up"></KeyBinding>
+        <KeyBinding Key="Down" Command="{Binding InputViewModel}" CommandParameter="Down"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="31*"/>
