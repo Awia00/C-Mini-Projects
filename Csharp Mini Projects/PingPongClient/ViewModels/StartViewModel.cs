@@ -109,7 +109,7 @@ namespace PingPongClient.ViewModels
 
 
         private bool _sendMessageAvailable = true;
-        public async void SendMessage()
+        public void SendMessage()
         {
             if (!_sendMessageAvailable || Message == "") return;
             _sendMessageAvailable = false;

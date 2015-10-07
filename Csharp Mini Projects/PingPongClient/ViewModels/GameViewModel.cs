@@ -15,75 +15,75 @@ namespace PingPongClient.ViewModels
         }
 
         #region Properties
-        private int _ballX = 100;
+        private int _ballX;
 
         public int BallX
         {
             get { return _ballX; }
             set
             {
-                _ballX = value + 100;
+                _ballX = value;
                 NotifyPropertyChanged("BallX");
             }
         }
 
-        private int _ballY = 100;
+        private int _ballY;
 
         public int BallY
         {
             get { return _ballY; }
             set
             {
-                _ballY = value + 100;
+                _ballY = value;
                 NotifyPropertyChanged("BallY");
             }
         }
 
 
-        private int _bat1X = 50;
+        private int _bat1X;
 
         public int Bat1X
         {
             get { return _bat1X; }
             set
             {
-                _bat1X = value + 100;
+                _bat1X = value;
                 NotifyPropertyChanged("Bat1X");
             }
         }
 
-        private int _bat1Y = 100;
+        private int _bat1Y;
 
         public int Bat1Y
         {
             get { return _bat1Y; }
             set
             {
-                _bat1Y = value + 100;
+                _bat1Y = value;
                 NotifyPropertyChanged("Bat1Y");
             }
         }
 
-        private int _bat2X = 150;
+        private int _bat2X;
 
         public int Bat2X
         {
             get { return _bat2X; }
             set
             {
-                _bat2X = value + 100;
+                _bat2X = value;
                 NotifyPropertyChanged("Bat2X");
             }
         }
 
-        private int _bat2Y = 100;
+        private int _bat2Y;
 
         public int Bat2Y
         {
             get { return _bat2Y; }
             set
             {
-                _bat2Y = value + 100;
+                _bat2Y = value;
                 NotifyPropertyChanged("Bat2Y");
             }
         }

@@ -27,9 +27,36 @@
             </i:Interaction.Triggers>
         </Button>
         <Canvas Margin="10" DataContext="{Binding GameViewModel}" Background="White">
-            <Rectangle Fill="Black" Height="10" Stroke="Black" Width="10" Canvas.Left="{Binding BallX}" Canvas.Top="{Binding BallY}"/>
-            <Rectangle Fill="Red" Height="50" Canvas.Left="{Binding Bat1X}" Stroke="Black" Canvas.Top="{Binding Bat1Y}" Width="10"/>
-            <Rectangle Fill="#FF000CFF" Height="50" Canvas.Left="{Binding Bat2X}" Stroke="Black" Canvas.Top="{Binding Bat2Y}" Width="10"/>
+            <Rectangle Fill="Black" Height="1" Stroke="Black" Width="1" Canvas.Left="{Binding BallX}" Canvas.Top="{Binding BallY}" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="10" ScaleY="10"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Fill="Red" Height="1" Canvas.Left="{Binding Bat1X}" Stroke="Red" Canvas.Top="{Binding Bat1Y}" Width="1" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="10" ScaleY="50"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Fill="#FF000CFF" Height="1" Canvas.Left="{Binding Bat2X}" Stroke="#FF0410FF" Canvas.Top="{Binding Bat2Y}" Width="1" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="10" ScaleY="50"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
         </Canvas>
 
     </Grid>

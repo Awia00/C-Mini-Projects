@@ -12,13 +12,14 @@ namespace PingPongServer
     public class GameController
     {
         public GameModel GameModel { get; set; }
-        private int _tickInterval = 100;
-        private bool isPaused = true;
+        public Settings Settings { get; set; }
+        private bool _isPaused = true;
 
         private Timer _timer;
         public GameController()
         {
             GameModel = new GameModel();
+            Settings = new Settings();
         }
 
         private void Tick(object state)
@@ -30,13 +31,13 @@ namespace PingPongServer
 
         public void StartGame()
         {
-            isPaused = false;
-            _timer = new Timer(Tick, null, DateTime.Now.Second, _tickInterval);
+            _isPaused = false;
+            _timer = new Timer(Tick, null, DateTime.Now.Second, Settings.UpdatesASecond);
         }
 
         public void PauseGame()
         {
-            isPaused = true;
+            _isPaused = true;
             _timer.Dispose();
         }
 
@@ -66,7 +67,7 @@ namespace PingPongServer
         /// <param name="direction">1 for up -1 for down.</param>
         public void MovePlayer(int playerId, int direction)
         {
-            if (isPaused) return;
+            if (_isPaused) return;
             if (playerId == GameModel.Player1.Id)
             {
                 GameModel.Player1.Bat.Move(direction/Math.Abs(direction)); // Math.abs to ensure only 1 and -1 is used.
