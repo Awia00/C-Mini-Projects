@@ -15,7 +15,7 @@
 
         public GameModel()
         {
-            Ball = new BallModel(new Point2D(150, -100), new Vector3D(-3, 0.1f), 1);
+            Ball = new BallModel(new Point2D(150, -100), new Vector3D(-30, 1f), 1);
             Player1 = new PlayerModel(new BatModel(new Point2D(100, -100), 50, new Vector3D(1, 0)), 1);
             Player2 = new PlayerModel(new BatModel(new Point2D(200, -100), 50, new Vector3D(-1, 0)), 2);
         }

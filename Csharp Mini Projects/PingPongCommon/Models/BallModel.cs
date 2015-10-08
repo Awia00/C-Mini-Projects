@@ -21,9 +21,14 @@ namespace PingPongCommon.Models
             Radius = 5;
         }
 
-        public void Move()
+        public void Move(int fps)
         {
-            Point = new Point2D(Point.X + Direction.X, Point.Y + Direction.Y);
+            Point = new Point2D(Point.X + Direction.X/fps, Point.Y + Direction.Y/fps);
+        }
+
+        public Point2D PosInOneSec()
+        {
+            return new Point2D(Point.X + Direction.X, Point.Y + Direction.Y);
         }
 
 

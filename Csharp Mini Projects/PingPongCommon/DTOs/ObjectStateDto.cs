@@ -8,12 +8,18 @@ namespace PingPongCommon.DTOs
 {
     public class ObjectStateDto : DtoBase
     {
-        public int BallX { get; set; }
-        public int BallY { get; set; }
-        public int Bat1X { get; set; }
-        public int Bat1Y { get; set; }
-        public int Bat2X { get; set; }
-        public int Bat2Y { get; set; }
+        public float BallX { get; set; }
+        public float BallY { get; set; }
+        public float BallXIn1Sec { get; set; }
+        public float BallYIn1Sec { get; set; }
+        public float Bat1X { get; set; }
+        public float Bat1Y { get; set; }
+        public float Bat1XIn1Sec { get; set; }
+        public float Bat1YIn1Sec { get; set; }
+        public float Bat2X { get; set; }
+        public float Bat2Y { get; set; }
+        public float Bat2XIn1Sec { get; set; }
+        public float Bat2YIn1Sec { get; set; }
         public ObjectStateDto() : base(DtoType.ObjectState)
         {
         }

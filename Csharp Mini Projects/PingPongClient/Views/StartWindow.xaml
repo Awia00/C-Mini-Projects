@@ -11,6 +11,8 @@
         <KeyBinding Key="S" Command="{Binding InputViewModel}" CommandParameter="S"></KeyBinding>
         <KeyBinding Key="Up" Command="{Binding InputViewModel}" CommandParameter="Up"></KeyBinding>
         <KeyBinding Key="Down" Command="{Binding InputViewModel}" CommandParameter="Down"></KeyBinding>
+        <KeyBinding Key="Space" Command="{Binding InputViewModel}" CommandParameter="Space"></KeyBinding>
+        <KeyBinding Key="Escape" Command="{Binding InputViewModel}" CommandParameter="Esc"></KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>

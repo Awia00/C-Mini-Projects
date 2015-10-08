@@ -48,7 +48,6 @@
     <Compile Include="GameController.cs" />
     <Compile Include="ServerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

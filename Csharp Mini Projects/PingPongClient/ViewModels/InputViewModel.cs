@@ -14,10 +14,12 @@ namespace PingPongClient.ViewModels
     public class InputViewModel : ICommand
     {
         private readonly ClientConnection _client;
+        private readonly StartViewModel parent;
 
-        public InputViewModel(ClientConnection client)
+        public InputViewModel(ClientConnection client, StartViewModel startViewModel)
         {
             _client = client;
+            parent = startViewModel;
         }
 
         private bool _inputActionAvailable = true;
@@ -64,6 +66,12 @@ namespace PingPongClient.ViewModels
                     break;
                 case "Down":
                     MovePlayer2Down();
+                    break;
+                case "Space":
+                    parent.PausePlay();
+                    break;
+                case "Esc":
+                    parent.Restart();
                     break;
             }
             _inputActionAvailable = true;
