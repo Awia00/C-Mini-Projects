@@ -1,0 +1,29 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyFirstApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="MyFirstApp.MainPage"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ListPickerFlyoutPresenterSelectedItemForegroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1080"/>
+        </Grid.RowDefinitions>
+        <Pivot Title="Pivot">
+            <PivotItem Header="Hillerød">
+                <Grid>
+                    <TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Hillerød" VerticalAlignment="Top" Margin="594,264,0,0" FontSize="64"/>
+                    <RichEditBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,116,0,0" Height="172" Width="308"/>
+                    <RichTextBlockOverflow HorizontalAlignment="Left" Height="172" VerticalAlignment="Top" Width="338" Margin="510,116,0,0"/>
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="København">
+                <Grid>
+                    <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" TextWrapping="Wrap" Text="København" VerticalAlignment="Top" Margin="594,264,0,0" FontSize="64"/>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>
