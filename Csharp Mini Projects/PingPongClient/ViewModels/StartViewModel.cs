@@ -57,7 +57,7 @@ namespace PingPongClient.ViewModels
 
         public void MoveBallOver1Sec(ObjectStateDto dto)
         {
-            GameViewModel.Update(dto);
+            //GameViewModel.Update(dto);
             var deltaX =        (dto.BallXIn1Sec - dto.BallX) / (float)_settings.UpdatesASecond;
             var deltaY =        -((dto.BallYIn1Sec - dto.BallY) / (float)_settings.UpdatesASecond);
             var deltaBat1X =    (dto.Bat1XIn1Sec - dto.Bat1X) / (float)_settings.UpdatesASecond;

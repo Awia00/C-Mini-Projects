@@ -25,10 +25,12 @@
             if (Player1.Bat.CheckCollision(Ball))
             {
                 Ball.Direction = Vector3D.ReflectionVector3D(Ball.Direction, Player1.Bat.Normal);
+                Ball.Direction = Ball.Direction.VectorTimesFactor(1.2f);
             }
             else if (Player2.Bat.CheckCollision(Ball))
             {
                 Ball.Direction = Vector3D.ReflectionVector3D(Ball.Direction, Player2.Bat.Normal);
+                Ball.Direction = Ball.Direction.VectorTimesFactor(1.2f);
             }
         }
     }
