@@ -36,23 +36,23 @@ namespace Challenges_Difficult
         private static string FindPairs(IList<int> values)
         {
             var temp = "";
-            var combis = new List<Tuple<int, int, int>>();
+            var combinations = new List<Tuple<int, int, int>>();
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        combis.Add(new Tuple<int, int, int>(values[i], values[j], values[k]));
+                        combinations.Add(new Tuple<int, int, int>(values[i], values[j], values[k]));
                     }
                 }
             }
-            foreach (var combi in combis)
+            foreach (var combination in combinations)
             {
-                if (combi.Item1 + combi.Item2 == combi.Item3) temp += combi.Item1 + " + "+ combi.Item2 + " = "+ combi.Item3 + "\n";
-                if (combi.Item1 - combi.Item2 == combi.Item3) temp += combi.Item1 + " - " + combi.Item2 + " = " + combi.Item3 + "\n";
-                if (combi.Item1 * combi.Item2 == combi.Item3) temp += combi.Item1 + " * " + combi.Item2 + " = " + combi.Item3 + "\n";
-                if (combi.Item1 / combi.Item2 == combi.Item3) temp += combi.Item1 + " / " + combi.Item2 + " = " + combi.Item3 + "\n";
+                if (combination.Item1 + combination.Item2 == combination.Item3) temp += combination.Item1 + " + "+ combination.Item2 + " = "+ combination.Item3 + "\n";
+                if (combination.Item1 - combination.Item2 == combination.Item3) temp += combination.Item1 + " - " + combination.Item2 + " = " + combination.Item3 + "\n";
+                if (combination.Item1 * combination.Item2 == combination.Item3) temp += combination.Item1 + " * " + combination.Item2 + " = " + combination.Item3 + "\n";
+                if (combination.Item1 / combination.Item2 == combination.Item3) temp += combination.Item1 + " / " + combination.Item2 + " = " + combination.Item3 + "\n";
             }
             return temp;
         }
