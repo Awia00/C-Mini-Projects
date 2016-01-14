@@ -7,8 +7,8 @@
     <ProjectGuid>{1BD7A60E-75D7-4197-8F6A-053B80D28513}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Challenge_004</RootNamespace>
-    <AssemblyName>Challenge-004</AssemblyName>
+    <RootNamespace>Challenges_Easy</RootNamespace>
+    <AssemblyName>Challenges-Easy</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ChallengeEasy004.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
