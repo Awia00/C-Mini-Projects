@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerClientProject", "ServerClientProject\ServerClientProject.csproj", "{9CE91216-73F0-4164-837C-C1C9908A38DD}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongServer", "PingPongServer\PingPongServer.csproj", "{EA098FE7-4329-4947-AACF-7B802D71D84D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongCommon", "PingPongCommon\PingPongCommon.csproj", "{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AspNet5WebAPI", "AspNet5WebAPI\AspNet5WebAPI.xproj", "{8B384FFF-6117-47E9-8812-99CCA3E24B8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FB32F67-10EB-49BC-B8D9-8F87C64B48D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B384FFF-6117-47E9-8812-99CCA3E24B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B384FFF-6117-47E9-8812-99CCA3E24B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B384FFF-6117-47E9-8812-99CCA3E24B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B384FFF-6117-47E9-8812-99CCA3E24B8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
