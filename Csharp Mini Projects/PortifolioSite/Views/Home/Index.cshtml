@@ -1,0 +1,23 @@
+﻿@model PortifolioSite.ViewModels.Project
+@{
+    //Layout = "_Layout";
+}
+
+<h1>Home Page</h1>
+<h2>@ViewBag.Appname</h2>
+
+<div tag-helper-test>
+</div>
+<div tag-helper-test>
+</div>
+
+<form asp-controller="Home" asp-action="Submit">
+    <div>
+        <label asp-for="Title">Project Title</label>
+        <input asp-for="Title"/>
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <button>Submit</button>
+    </div>
+</form>
