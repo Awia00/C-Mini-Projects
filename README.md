@@ -1,4 +1,4 @@
 C-Mini-Projects
 ===============
 
-Small C# test projects, trying out tutorials and/or other neat stuff.
+Small test projects in mainly C#, trying out tutorials and/or other neat stuff.
