@@ -1,0 +1,21 @@
+{
+  "name": "ASP.NET",
+  "private": true,
+  "dependencies": {
+    "jquery": "2.1.4",
+    "bootstrap": "3.3.5"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "js": "dist/js/*.*",
+      "css": "dist/css/*.*",
+      "fonts": "dist/fonts/*.*"
+    },
+    "jquery": {
+      "js": "dist/*.*"
+    }
+  },
+  "resolutions": {
+    "jquery": ">= 1.9.1"
+  }
+}
