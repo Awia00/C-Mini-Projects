@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AspNet5WebApplication.Models;
+using AspNet5WebApplication.Models.Bookstore;
 using AspNet5WebApplication.Services;
 
 namespace AspNet5WebApplication
@@ -64,6 +65,10 @@ namespace AspNet5WebApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // Non default stuff
+            SampleData.Initialize(app.ApplicationServices);
+            //
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

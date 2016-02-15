@@ -21845,7 +21845,9 @@
       "Microsoft.Extensions.Logging.Console >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0-rc1-final",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final",
-      "EntityFramework.MicrosoftSqlServer.Design >= 7.0.0-rc1-final"
+      "EntityFramework.MicrosoftSqlServer.Design >= 7.0.0-rc1-final",
+      "Microsoft.Extensions.DependencyInjection >= 1.0.0-rc1-final",
+      "EntityFramework.Relational >= 7.0.0-rc1-final"
     ],
     "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": []
