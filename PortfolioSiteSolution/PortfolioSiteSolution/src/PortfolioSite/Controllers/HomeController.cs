@@ -51,6 +51,7 @@ namespace PortfolioSite.Controllers
             LinkedInUri = new Uri("https://dk.linkedin.com/in/anderswinds"),
         };
 
+
         public IActionResult Index()
         {
             //todo remove
@@ -75,7 +76,7 @@ namespace PortfolioSite.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel() {HeaderImage = "../images/header1.jpg" });
         }
     }
 }
