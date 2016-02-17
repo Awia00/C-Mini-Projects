@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace PortfolioSite.ViewModels
 {
-    public class ProjectViewModel
+    public class ServiceViewModel
     {
-        public string Category { get; set; }
         public string Title { get; set; }
+        public string Symbol { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        //todo make own data anootation requirement 0.1s for example
+        public string Delay { get; set; }
     }
 }
