@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json;
 using PortfolioSite.ViewModels;
 
 namespace PortfolioSite.Controllers
@@ -48,6 +49,9 @@ namespace PortfolioSite.Controllers
 
         public IActionResult Index()
         {
+            //todo remove
+            //var json = JsonConvert.SerializeObject(HomeViewModel);
+            //System.IO.File.WriteAllText(@"C:\Users\ander\Desktop\data.json", json);
             return View(HomeViewModel);
         }
 

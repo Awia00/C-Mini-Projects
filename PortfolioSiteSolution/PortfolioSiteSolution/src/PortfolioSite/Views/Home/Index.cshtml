@@ -25,7 +25,7 @@
                         <a class="page-scroll" href="#services">Services</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                        <a class="page-scroll" href="#portfolio">Projects</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -92,7 +92,7 @@
     <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter">
-                @foreach (PortfolioSite.ViewModels.ProjectViewModel project in Model.ProjectCollection)
+                @foreach (var project in Model.ProjectCollection)
                 {
                     <div class="col-lg-4 col-sm-6">
                         <a href="#" class="portfolio-box">
