@@ -34,5 +34,10 @@ namespace PortfolioSite.ViewModels
         public string Email { get; set; }
         [Phone]
         public string CellPhoneNumber { get; set; }
+
+        public Uri FacebookUri { get; set; }
+        public Uri TwitterUri { get; set; }
+        public Uri LinkedInUri { get; set; }
+        public Uri GooglePlusUri { get; set; }
     }
 }

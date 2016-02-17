@@ -16,6 +16,8 @@ namespace PortfolioSite.ViewModels
         public string Client { get; set; }
         public Uri ClientLink { get; set; }
         public string Date { get; set; }
-        public string Service { get; set; } 
+        public string Service { get; set; }
+        public Uri ProjectLink { get; set; }
+        public string ProjectLinkText { get; set; }
     }
 }

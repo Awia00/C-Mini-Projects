@@ -129,7 +129,7 @@
 }
 
 
-<section id="contact">
+<section id="contact" style="padding-bottom: 50px">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
@@ -148,6 +148,40 @@
                 </p>
             </div>
         </div>
+    @if (Model.FacebookUri != null || Model.TwitterUri != null || Model.LinkedInUri != null || Model.GooglePlusUri != null)
+    {
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h3>Around the Web</h3>
+                <ul class="list-inline">
+                    @if (Model.FacebookUri != null)
+                    {
+                        <li>
+                            <a href="@Model.FacebookUri" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+                        </li>
+                    }
+                    @if (Model.TwitterUri != null)
+                    {
+                        <li>
+                            <a href="@Model.TwitterUri" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                        </li>
+                    }
+                    @if (Model.LinkedInUri != null)
+                    {
+                        <li>
+                            <a href="@Model.LinkedInUri" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                        </li>
+                    }
+                    @if (Model.GooglePlusUri != null)
+                    {
+                        <li>
+                            <a href="@Model.GooglePlusUri" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
     </div>
 </section>
 
@@ -194,6 +228,15 @@
                                         Service:
                                         <strong>
                                             @projectViewModel.Service
+                                        </strong>
+                                    </li>
+                                }
+                                @if (projectViewModel.ProjectLink != null)
+                                {
+                                    <li>
+                                        See more:
+                                        <strong>
+                                            <a href="@projectViewModel.ProjectLink">@projectViewModel.ProjectLinkText</a>
                                         </strong>
                                     </li>
                                 }

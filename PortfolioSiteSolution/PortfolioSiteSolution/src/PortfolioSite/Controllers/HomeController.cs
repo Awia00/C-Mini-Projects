@@ -19,7 +19,7 @@ namespace PortfolioSite.Controllers
             MainText = "I am a software development student at the IT-University of Copenhagen in Denmark and a freelance developer.",
             ProfileImage = "../images/profile-pic.jpg",
             AboutTitle = "Wind IT",
-            AboutText = "My company Wind IT creates software solutions for companies and people, who want to improve they work-processes with IT. I focus on making IT as easy and simple to use - and showing that IT can help in many ways",
+            AboutText = "My company Wind IT creates software solutions for companies and people, who want to improve their work-processes with IT. I focus on making IT as easy and simple to use - and showing that IT can help in many ways",
             ServicesTitle = "I can help you with",
             ServicesCollection = new List<ServiceViewModel>
             {
@@ -45,7 +45,10 @@ namespace PortfolioSite.Controllers
             ContactTitle = "Let's get in touch!",
             ContactText = "Ready to start your next project with me? That's great! Give me a call or send me an email and I will get back to you as soon as possible!",
             CellPhoneNumber = "+45 41 36 48 07",
-            Email = "anders-wind@outlook.com"
+            Email = "anders-wind@outlook.com",
+            FacebookUri = new Uri("https://www.facebook.com/anders.w.steffensen"),
+            TwitterUri = new Uri("https://twitter.com/WindAnders"),
+            LinkedInUri = new Uri("https://dk.linkedin.com/in/anderswinds"),
         };
 
         public IActionResult Index()
