@@ -10,6 +10,7 @@ namespace PortfolioSite.Controllers
 {
     public class HomeController : Controller
     {
+        private const string Lorem = "Use this area of the page to describe your project.\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
         public HomeViewModel HomeViewModel { get; set; } = new HomeViewModel
         {
             MainTitle = "Anders Wind",
@@ -30,12 +31,12 @@ namespace PortfolioSite.Controllers
             ProjectCollection = new List<ProjectViewModel>
             {
                 //new ProjectViewModel { Category = ".NET",  Title = "Ray Tracing", Image = "https://raw.githubusercontent.com/Awia00/Ray-Tracing/master/RayTracerShowcase.png"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/1.jpg", Title = "Project 1"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/2.jpg", Title = "Project 2"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/3.jpg", Title = "Project 3"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/4.jpg", Title = "Project 4"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/5.jpg", Title = "Project 5"},
-                new ProjectViewModel { Category = "Category", Image = "../images/portfolio/6.jpg", Title = "Project 6"}
+                new ProjectViewModel { Id="Project1", Category = "Category", Image = "../images/portfolio/1.jpg", Title = "Project 1", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"},
+                new ProjectViewModel { Id="Project2", Category = "Category", Image = "../images/portfolio/2.jpg", Title = "Project 2", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"},
+                new ProjectViewModel { Id="Project3", Category = "Category", Image = "../images/portfolio/3.jpg", Title = "Project 3", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"},
+                new ProjectViewModel { Id="Project4", Category = "Category", Image = "../images/portfolio/4.jpg", Title = "Project 4", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"},
+                new ProjectViewModel { Id="Project5", Category = "Category", Image = "../images/portfolio/5.jpg", Title = "Project 5", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"},
+                new ProjectViewModel { Id="Project6", Category = "Category", Image = "../images/portfolio/6.jpg", Title = "Project 6", Description = Lorem, Client = "StartBootstrap", ClientLink = new Uri("http://startbootstrap.com/"), Service = "Web Development", Date = "February 2016"}
             },
             SecondaryWebsiteText = "Check out all my projects on Github!",
             SecondaryWebsiteLink = new Uri("https://github.com/Awia00"),
