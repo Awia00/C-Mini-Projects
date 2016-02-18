@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
@@ -30,22 +31,13 @@ namespace PortfolioSite
 
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup(IApplicationEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("data.json")
-                .AddJsonFile($"data.{env.Configuration}.json", true) // a debug or release config - true means its optional.
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-        }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var section = Configuration.GetSection("HomeViewModel");
-            //var test = JsonConvert.DeserializeObject<HomeViewModel>(section.Value);
+            var data = JsonConvert.DeserializeObject<HomeViewModel>(File.ReadAllText("data.json"));
             services.AddInstance(new MyConfig()
             {
-                //HomeViewModel = test
+                HomeViewModel = data
             });
             // Add framework services.
             services.AddMvc();
