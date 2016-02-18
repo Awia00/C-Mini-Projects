@@ -1,6 +1,17 @@
-﻿@{
+﻿@model PortfolioSite.ViewModels.ErrorViewModel
+@{
     ViewData["Title"] = "Error";
 }
+<header style="background-image: url(@Model.HeaderImage)">
+    <div class="header-content">
+        <div class="header-content-inner text-center">
+            <h1 class="text-danger">Error.</h1>
+            <hr>
+            <h2 class="text-danger">An error occurred while processing your request.</h2>
+            <hr>
+            <a href="HOME" class="btn btn-primary btn-xl page-scroll">Try to take me back</a>
+        </div>
+    </div>
+</header>
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+
