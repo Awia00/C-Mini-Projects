@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HelloWorld", "HelloWorld\HelloWorld.fsproj", "{A20F8FF7-B99D-456A-9D74-CBB28939528F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Assignments", "Assignment01\Assignments.fsproj", "{F26914D4-2025-45B8-9C74-73E7B79500CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A20F8FF7-B99D-456A-9D74-CBB28939528F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20F8FF7-B99D-456A-9D74-CBB28939528F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20F8FF7-B99D-456A-9D74-CBB28939528F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20F8FF7-B99D-456A-9D74-CBB28939528F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F26914D4-2025-45B8-9C74-73E7B79500CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F26914D4-2025-45B8-9C74-73E7B79500CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F26914D4-2025-45B8-9C74-73E7B79500CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F26914D4-2025-45B8-9C74-73E7B79500CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
