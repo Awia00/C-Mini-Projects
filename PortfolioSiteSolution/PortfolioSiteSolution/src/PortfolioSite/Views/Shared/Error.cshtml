@@ -5,11 +5,10 @@
 <header style="background-image: url(@Model.HeaderImage)">
     <div class="header-content">
         <div class="header-content-inner text-center">
-            <h1 class="text-danger">Error.</h1>
+            <h1 class="text-danger big-error">:(</h1>
+            <h2 class="text-danger medium-error">@Model.ErrorMessage</h2>
             <hr>
-            <h2 class="text-danger">An error occurred while processing your request.</h2>
-            <hr>
-            <a href="HOME" class="btn btn-primary btn-xl page-scroll">Try to take me back</a>
+            <a href="HOME" class="btn btn-primary btn-xl page-scroll">Try to take me to the home page</a>
         </div>
     </div>
 </header>
