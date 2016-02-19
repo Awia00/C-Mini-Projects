@@ -80,13 +80,13 @@ namespace PortfolioSite.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel() {HeaderImage = "../images/header1.jpg" });
+            return View(new ErrorViewModel() {HeaderImage = "../images/header4.jpg" });
         }
 
         [Route("Home/Error/{code}")]
         public IActionResult Error(int code)
         {
-            return View(new ErrorViewModel() { HeaderImage = "../images/header1.jpg", ErrorMessage = "The page you tried to access did not exist"});
+            return View(new ErrorViewModel() { HeaderImage = "../images/header4.jpg", ErrorMessage = "The page you tried to access did not exist"});
         }
     }
 }
