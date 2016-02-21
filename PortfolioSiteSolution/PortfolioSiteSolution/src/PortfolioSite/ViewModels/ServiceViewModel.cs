@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioSite.ViewModels
 {
-    public class ServiceViewModel
+    public class ServiceViewModel : ViewModelBase
     {
         public string Title { get; set; }
         public string Symbol { get; set; }

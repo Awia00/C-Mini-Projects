@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioSite.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : ViewModelBase
     {
         public string HeaderTitle { get; set; }
         public string HeaderImage { get; set; }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioSite.ViewModels
 {
-    public class ErrorViewModel
+    public class ErrorViewModel : ViewModelBase
     {
         public string HeaderImage { get; set; }
         public string ErrorMessage { get; set; } = "Ups something went wrong on our end";
