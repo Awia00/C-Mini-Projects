@@ -1,12 +1,13 @@
 {
-  
+  "BackgroundColor": "#2D7A97",
+  "BackgroundColorFocus": "#116F93",
   "HeaderTitle": "Anders Wind's Portfolio",
-  "HeaderImage": "../images/header4.jpg",
+  "HeaderImage": "../images/header5.jpg",
   "MainTitle": "Anders Wind",
   "MainText": "I am a 6th semester software development student at the IT-University of Copenhagen in Denmark and a freelance developer.",
   "ProfileImage": "../images/profile-pic.jpg",
   "AboutTitle": "About me",
-  "AboutText": "I create software solutions for companies and people, who want to improve their work-processes with IT. I focus on making IT as easy and simple to use - and showing that IT can help in many ways.\n I write code in a lot of languages but mainly focus on C# and F#.",
+  "AboutText": "I create software solutions for companies and people, who want to improve their work-processes with IT. I focus on making IT as easy and simple to use while solving the critical problems.\n I write code in a lot of languages but mainly focus on C# and F#.",
   "ServicesTitle": "I can help you with",
   "ServicesCollection": [
     {
@@ -22,13 +23,13 @@
       "Delay": "0.12s"
     },
     {
-      "Title": "Into the Cloud",
+      "Title": "Cloud Services",
       "Symbol": "fa-cloud",
-      "Description": "I allow multiple services to talk together allowing you and your team to work together to solve your problems.",
+      "Description": "Allowing multiple services to talk together enabling you and your team to work together to solve your problems.",
       "Delay": "0.24s"
     },
     {
-      "Title": "Collaboration with You",
+      "Title": "Collaboration",
       "Symbol": "fa-heart",
       "Description": "Collaborating with you makes sure that we reach the best solution together!",
       "Delay": "0.36s"
@@ -50,9 +51,9 @@
       "Id": "Project2",
       "Category": "Native Apps",
       "Title": "Call Center System",
-      "Description": "Nordsjæland Brandvæsen (a regional firefighter emergency center) was in need of a smarter way to access routines in their call center unit. Therefore we created a native Windows client for their unit to access all of their routines as well as edit them. The project includes a web API implementation with custom and secure identification system.\nThe source is closed source for now but will be open sourced later on",
+      "Description": "Nordsj\u00E6lland Brandv\u00E6sen (a regional firefighter emergency center) was in need of a smarter way to access routines in their call center unit. Therefore we created a native Windows client for their unit to access all of their routines as well as edit them. The project includes a web API implementation with custom and secure identification system.\nThe source is closed source for now but will be open sourced later on",
       "Image": "../images/portfolio/VAC-Showcase.png",
-      "Client": "Nordsjælland Brandvæsen",
+      "Client": "Nordsj\u00E6lland Brandv\u00E6sen",
       "ClientLink": "http://www.nsbv.dk/",
       "Date": "November-December 2015",
       "Service": "Native Apps",

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Portfolio site for Anders Wind" content="">
@@ -53,10 +53,99 @@
     <!-- Custom Theme JavaScript -->
     <script src="~/lib/bootstrap/dist/js/creative.js"></script>
 
-    @*<style>
-    h2 {
-        color: @Model.H2Color;
+    <style>
+    .bg-primary {
+        background-color: @Model.BackgroundColor;
     }
-    </style>*@
+    .btn-primary {
+        background-color: @Model.BackgroundColor;
+        border-color: @Model.BackgroundColor;
+    }
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary.focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open > .dropdown-toggle.btn-primary {
+        border-color: @Model.BackgroundColorFocus;
+        background-color: @Model.BackgroundColorFocus;
+    }
+    .btn-primary.disabled,
+    .btn-primary[disabled],
+    fieldset[disabled] .btn-primary,
+    .btn-primary.disabled:hover,
+    .btn-primary[disabled]:hover,
+    fieldset[disabled] .btn-primary:hover,
+    .btn-primary.disabled:focus,
+    .btn-primary[disabled]:focus,
+    fieldset[disabled] .btn-primary:focus,
+    .btn-primary.disabled.focus,
+    .btn-primary[disabled].focus,
+    fieldset[disabled] .btn-primary.focus,
+    .btn-primary.disabled:active,
+    .btn-primary[disabled]:active,
+    fieldset[disabled] .btn-primary:active,
+    .btn-primary.disabled.active,
+    .btn-primary[disabled].active,
+    fieldset[disabled] .btn-primary.active {
+        border-color: @Model.BackgroundColor;
+        background-color: @Model.BackgroundColor;
+    }
+    .btn-primary .badge {
+        color: @Model.BackgroundColor;
+    }
+    .navbar-brand {
+        color: @Model.BackgroundColor;
+    }
+    hr {
+        border-color: @Model.BackgroundColor;
+    }
+    .text-primary {
+        color: @Model.BackgroundColor;
+    }
+    a {
+        color: @Model.BackgroundColor;
+    }
+    a:focus, a:hover {
+        color: @Model.BackgroundColorFocus;
+    }
+    .navbar-default .navbar-header .navbar-brand {
+        color: @Model.BackgroundColor;
+    }
+    .navbar-default .navbar-header .navbar-brand:hover,
+    .navbar-default .navbar-header .navbar-brand:focus {
+        color: @Model.BackgroundColorFocus;
+    }
+    .navbar-default .nav > li > a:hover,
+    .navbar-default .nav > li > a:focus:hover {
+        color: @Model.BackgroundColor;
+    }
+    .navbar-default .nav > li.active > a,
+    .navbar-default .nav > li.active > a:focus {
+        color: @Model.BackgroundColor !important;
+    }
+    .portfolio-box .portfolio-box-caption {
+        background: @Model.BackgroundColor;
+    }
+    .btn-outline:hover,
+    .btn-outline:focus,
+    .btn-outline:active,
+    .btn-outline.active {
+        color: @Model.BackgroundColorFocus;
+    }
+    .navbar-default.affix .navbar-header .navbar-brand {
+        color: @Model.BackgroundColor;
+    }
+
+    .navbar-default.affix .navbar-header .navbar-brand:hover,
+    .navbar-default.affix .navbar-header .navbar-brand:focus {
+        color: @Model.BackgroundColorFocus;
+    }
+    .navbar-default.affix .nav > li>a:hover,
+    .navbar-default.affix .nav>li>a:focus:hover {
+        color: @Model.BackgroundColor;
+    }
+</style>
+
 </body>
 </html>
