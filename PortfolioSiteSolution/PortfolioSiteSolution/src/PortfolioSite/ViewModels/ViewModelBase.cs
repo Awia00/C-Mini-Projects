@@ -7,6 +7,7 @@ namespace PortfolioSite.ViewModels
 {
     public class ViewModelBase
     {
+        public string Title { get; set; }
         public string BackgroundColor { get; set; } 
         public string BackgroundColorFocus { get; set; }
     }
