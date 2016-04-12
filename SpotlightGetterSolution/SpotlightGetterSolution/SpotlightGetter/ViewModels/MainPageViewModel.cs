@@ -98,12 +98,15 @@ namespace SpotlightGetter.ViewModels
             {
                 try
                 {
-                    await storageFile.CopyAsync(folder, storageFile.Name, NameCollisionOption.GenerateUniqueName);
-                    await storageFile.DeleteAsync();
+                    await storageFile.CopyAsync(folder, storageFile.Name, NameCollisionOption.FailIfExists);
                 }
                 catch (Exception)
                 {
 
+                }
+                finally
+                {
+                    await storageFile.DeleteAsync();
                 }
             }
         });
