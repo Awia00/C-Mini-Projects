@@ -24,8 +24,10 @@ namespace SpotlightGetter.ViewModels
 
         public ActionCommand FindFolderCommand => new ActionCommand(async() =>
         {
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
             folderPicker.FileTypeFilter.Add(".txt");
 
             Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
@@ -77,8 +79,10 @@ namespace SpotlightGetter.ViewModels
         });
         public ActionCommand SaveFilesCommand => new ActionCommand(async () =>
         {
-            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
             folderPicker.FileTypeFilter.Add(".txt");
 
             Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
