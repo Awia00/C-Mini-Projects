@@ -25,6 +25,7 @@ namespace SpotlightGetterMinimal.Views
         public IntroductionPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
     }
 }

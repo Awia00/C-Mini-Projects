@@ -1974,15 +1974,6 @@
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
         }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
@@ -3814,15 +3805,6 @@
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
         }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
@@ -5616,15 +5598,6 @@
         },
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
-        }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
         }
       }
     },
@@ -7464,15 +7437,6 @@
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
         }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
@@ -9266,15 +9230,6 @@
         },
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
-        }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
         }
       }
     },
@@ -11114,15 +11069,6 @@
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
         }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
@@ -12916,15 +12862,6 @@
         },
         "runtime": {
           "lib/uap10.0/Template10Library.dll": {}
-        }
-      },
-      "XamlAnimatedGif/1.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
-        },
-        "runtime": {
-          "lib/portable-win81+wpa81/XamlAnimatedGif.dll": {}
         }
       }
     }
@@ -16243,18 +16180,6 @@
         "lib/uap10.0/Template10Library/Themes/PageHeader.xaml",
         "lib/uap10.0/Template10Library/Themes/Resizer.xaml"
       ]
-    },
-    "XamlAnimatedGif/1.1.1": {
-      "sha512": "Ovwy1tWR5nlVmCnqgyOwkOBZHnKpznBaKRRn+z1hQMo11CXON2jCtjC0Hzgv4/DopGcaNvf8r7XXB/rZfr8vug==",
-      "type": "package",
-      "files": [
-        "XamlAnimatedGif.1.1.1.nupkg.sha512",
-        "XamlAnimatedGif.nuspec",
-        "lib/net40/XamlAnimatedGif.dll",
-        "lib/net45/XamlAnimatedGif.dll",
-        "lib/portable-win81+wpa81/XamlAnimatedGif.dll",
-        "lib/sl5/XamlAnimatedGif.dll"
-      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -16262,8 +16187,7 @@
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
       "Microsoft.Xaml.Behaviors.Uwp.Managed >= 1.0.3",
       "Newtonsoft.Json >= 8.0.2",
-      "Template10 >= 1.1.*",
-      "XamlAnimatedGif >= 1.1.1"
+      "Template10 >= 1.1.8"
     ],
     "UAP,Version=v10.0": []
   }
