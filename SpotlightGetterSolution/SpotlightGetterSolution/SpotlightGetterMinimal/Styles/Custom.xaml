@@ -10,8 +10,17 @@
     <Color x:Key="ContrastColor">White</Color>
     <Color x:Key="SystemAccentColor">SteelBlue</Color>
 
-    <ResourceDictionary.ThemeDictionaries>
+    <Style x:Key="IntroductionTextblockStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="IntroductionTextblockHeaderStyle" TargetType="TextBlock" BasedOn="{StaticResource IntroductionTextblockStyle}">
+        <Setter Property="FontSize" Value="28"/>
+    </Style>
 
+    <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
 
             <SolidColorBrush x:Key="CustomColorBrush" Color="{ThemeResource CustomColor}" />
@@ -47,7 +56,6 @@
                 <Setter Property="GrabberBrush" Value="{ThemeResource CustomColorBrush}" />
                 <Setter Property="GrabberVisibility" Value="Visible" />
             </Style>
-
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">

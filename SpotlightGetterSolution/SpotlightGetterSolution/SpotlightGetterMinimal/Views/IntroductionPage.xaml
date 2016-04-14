@@ -1,0 +1,92 @@
+﻿<Page
+    x:Class="SpotlightGetterMinimal.Views.IntroductionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpotlightGetterMinimal.Views"
+    xmlns:gif="using:XamlAnimatedGif"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:SpotlightGetterMinimal.ViewModels"
+    mc:Ignorable="d" Height="800" Width="1024">
+
+    <Page.DataContext>
+        <viewModels:IntroductionPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <RelativePanel Background="SteelBlue">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for narrow view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for normal view  -->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateWide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WideMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  TODO: change properties for wide view  -->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid 
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True" 
+            RelativePanel.AlignBottomWithPanel="True"
+            Padding="5" Margin="5" >
+            <StackPanel 
+                Padding="100,100"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Text="Welcome!">
+                </TextBlock>
+                <TextBlock 
+                    Padding="0,20,0,5"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Text="To save the Windows Spotlight images on your computer we first need to have access to them.">
+                </TextBlock>
+                <TextBlock 
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Text="Therefore copy this folder address and paste it into the file browser bar when you click on the button below">
+                </TextBlock>
+                <TextBox
+                    Background="Azure"
+                    Margin="0,20,0,5"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Text="%localappdata%\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets">
+                </TextBox>
+                <Button
+                    x:Name="PickSpotlightFolder"
+                    Click="{x:Bind ViewModel.PickSpotlightFolder}"
+                    Foreground="White"
+                    Margin="0,5,0,5"
+                    HorizontalAlignment="Center"
+                    Content="Pick Folder">
+                </Button>
+                <Image 
+                    Margin="50,20"
+                    gif:AnimationBehavior.SourceUri="/Assets/giphy.gif" >
+                </Image>
+            </StackPanel>
+        </Grid>
+    </RelativePanel>
+</Page>
