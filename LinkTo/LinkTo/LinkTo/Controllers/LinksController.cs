@@ -27,7 +27,25 @@ namespace LinkTo.Controllers
         {
             return await _context.GetLink();
         }
-        
+
+        [HttpGet("Redirected/{name}")]
+        public async Task<IActionResult> Redirected([FromRoute] string name)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var link = await _context.GetLink(name);
+
+            if (link == null)
+            {
+                return NotFound();
+            }
+
+            return Redirect(link.OutUri);
+        }
+
         // GET: api/Links/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLink([FromRoute] int id)
@@ -76,7 +94,7 @@ namespace LinkTo.Controllers
             }
 
             // generate localUri
-            link.LocalUri = "https://www.link-to.anderswind.dk/links/redirected/" + link.Name;
+            link.LocalUri = "http://localhost:56792/api/links/redirected/" + link.Name;
 
             link = await _context.PostLink(link);
             //await _context.SaveChangesAsync();

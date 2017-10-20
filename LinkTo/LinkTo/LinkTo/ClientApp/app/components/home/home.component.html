@@ -1,7 +1,8 @@
 <h1>Link to</h1>
 <p>Paste a link and give it a new name.</p>
 <form>
-    <input #linkTextBox type="text"placeholder="Link name" />
-    <input type="submit" class="btn" (click)="generateLink(linkTextBox.value)"/>
+    <input #nameTextBox type="text"placeholder="Link name" />
+    <input #urlTextBox type="text" placeholder="Link url" />
+    <input type="submit" class="btn" (click)="generateLink(nameTextBox.value, urlTextBox.value)"/>
 </form>
 <p>{{generatedLink}}</p>

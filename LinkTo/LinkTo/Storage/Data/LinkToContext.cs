@@ -11,7 +11,7 @@ namespace Storage.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=LinkTo.db");
+            optionsBuilder.UseSqlite("Filename=LinkTo.db");
         }
 
         public DbSet<Models.Link> Link { get; set; }

@@ -21,10 +21,17 @@ namespace Storage.Repositories
         {
             return await _context.Link.ToListAsync();
         }
-
+        
         public async Task<Link> GetLink(int id)
         {
             var link = await _context.Link.SingleOrDefaultAsync(m => m.Id == id);
+
+            return link;
+        }
+
+        public async Task<Link> GetLink(string name)
+        {
+            var link = await _context.Link.SingleOrDefaultAsync(m => m.Name == name);
 
             return link;
         }
@@ -59,9 +66,6 @@ namespace Storage.Repositories
 
         public async Task<Link> PostLink(Link link)
         {
-            // generate localUri
-            link.LocalUri = "https://www.link-to.anderswind.dk/links/redirected/" + link.Name;
-
             _context.Link.Add(link);
             await _context.SaveChangesAsync();
 
