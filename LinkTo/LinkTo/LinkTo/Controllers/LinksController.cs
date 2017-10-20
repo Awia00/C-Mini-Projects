@@ -27,7 +27,7 @@ namespace LinkTo.Controllers
         {
             return _context.Link;
         }
-
+        
         // GET: api/Links/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLink([FromRoute] int id)
@@ -91,8 +91,11 @@ namespace LinkTo.Controllers
                 return BadRequest(ModelState);
             }
 
+            // generate localUri
+            link.LocalUri = "https://www.link-to.anderswind.dk/links/redirected/" + link.Name;
+
             _context.Link.Add(link);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLink", new { id = link.Id }, link);
         }

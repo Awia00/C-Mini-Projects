@@ -10,6 +10,7 @@ namespace LinkTo.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Uri Uri { get; set; }
+        public string OutUri { get; set; }
+        public string LocalUri { get; set; }
     }
 }
