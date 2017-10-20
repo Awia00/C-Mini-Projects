@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LinkTo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using LinkTo.Models;
+using Storage.Data;
+using Storage.Repositories;
 
 namespace LinkTo
 {
@@ -26,9 +26,10 @@ namespace LinkTo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<ILinkRepository, LinkRepository>();
 
             services.AddDbContext<LinkToContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LinkToContext")));
+                    options.UseSqlite(Configuration.GetConnectionString("LinkToContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LinkTo.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LinkTo.Models;
+using Storage.Models;
+using Storage.Repositories;
 
 namespace LinkTo.Controllers
 {
@@ -14,18 +14,18 @@ namespace LinkTo.Controllers
     [Route("api/Links")]
     public class LinksController : Controller
     {
-        private readonly LinkToContext _context;
+        private readonly ILinkRepository _context;
 
-        public LinksController(LinkToContext context)
+        public LinksController(ILinkRepository context)
         {
             _context = context;
         }
 
         // GET: api/Links
         [HttpGet]
-        public IEnumerable<Link> GetLink()
+        public async Task<IEnumerable<Link>> GetLink()
         {
-            return _context.Link;
+            return await _context.GetLink();
         }
         
         // GET: api/Links/5
@@ -37,7 +37,7 @@ namespace LinkTo.Controllers
                 return BadRequest(ModelState);
             }
 
-            var link = await _context.Link.SingleOrDefaultAsync(m => m.Id == id);
+            var link = await _context.GetLink(id);
 
             if (link == null)
             {
@@ -61,23 +61,7 @@ namespace LinkTo.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(link).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LinkExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.PutLink(id, link);
 
             return NoContent();
         }
@@ -94,7 +78,7 @@ namespace LinkTo.Controllers
             // generate localUri
             link.LocalUri = "https://www.link-to.anderswind.dk/links/redirected/" + link.Name;
 
-            _context.Link.Add(link);
+            link = await _context.PostLink(link);
             //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLink", new { id = link.Id }, link);
@@ -109,21 +93,9 @@ namespace LinkTo.Controllers
                 return BadRequest(ModelState);
             }
 
-            var link = await _context.Link.SingleOrDefaultAsync(m => m.Id == id);
-            if (link == null)
-            {
-                return NotFound();
-            }
-
-            _context.Link.Remove(link);
-            await _context.SaveChangesAsync();
+            var link = await _context.DeleteLink(id);
 
             return Ok(link);
-        }
-
-        private bool LinkExists(int id)
-        {
-            return _context.Link.Any(e => e.Id == id);
         }
     }
 }
