@@ -8,6 +8,7 @@ precision highp float;
 precision mediump float;
 #endif
 
+uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
 
@@ -50,7 +51,13 @@ uniform vec2 resolution;
 	return vec4(red, 0.0, 0, 1.0);
   }
 
+  vec4 funky(){
+	vec2 pos = ( gl_FragCoord.xy / resolution.xy ) * 26.0 - 13.0;
+	float x = sin(time + length(pos.xy)) + cos((mouse.x * 10.0) + pos.x);
+	float y = cos(time + length(pos.xy)) + sin((mouse.y * 10.0)+ pos.y);
+	return vec4( x * 0.5, y * 0.5, x * y, 1.0 );
+  }
+
   void main() {
-    //gl_FragColor = mandelbrot();
-	gl_FragColor = spotlight();
+    gl_FragColor = spotlight() + funky();
   }

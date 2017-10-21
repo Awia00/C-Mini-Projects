@@ -3,6 +3,7 @@ exports.render = function() {
     var canvas;
     var buffer;
     var mousePos = { x: 0.0, y: 0.0 };
+    var start = new Date().getTime();
 
     window.onload = init;
 
@@ -77,6 +78,9 @@ exports.render = function() {
 
         resolutionPosition = gl.getUniformLocation(program, "resolution");
         gl.uniform2f(resolutionPosition, canvas.width, canvas.height);
+
+        timePosition = gl.getUniformLocation(program, "time");
+        gl.uniform1f(timePosition, (new Date().getTime() - start) / 1000);
 
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
