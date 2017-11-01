@@ -7,6 +7,17 @@ exports.render = function() {
 
     window.onload = init;
 
+    function viewportToPixels(value) {
+        var parts = value.match(/([0-9\.]+)(vh|vw)/)
+        var q = Number(parts[1])
+        var side = window[['innerHeight', 'innerWidth'][['vh', 'vw'].indexOf(parts[2])]]
+        return side * (q/100)
+    }
+
+    function getSize(){
+        canvas.width = viewportToPixels(canvas.style.width);
+        canvas.height = viewportToPixels(canvas.style.height);
+    }
 
     function init() {
 
@@ -18,10 +29,16 @@ exports.render = function() {
         canvas = document.getElementById('glscreen');
         canvas.addEventListener('mousemove', function(evt) {
             mousePos = getMousePos(canvas, evt);
+            console.log(mousePos.x);
+            console.log(mousePos.y);
         }, false);
+        window.addEventListener('resize', function(evt){
+            getSize();
+        });
+        getSize();
+
         gl = canvas.getContext('experimental-webgl');
-        canvas.width = 640;
-        canvas.height = 480;
+
 
         buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -60,27 +77,32 @@ exports.render = function() {
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
-            x: evt.clientX - rect.left,
-            y: rect.bottom - evt.clientY
+            x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
+            y:  (evt.clientY-rect.bottom)/(rect.top-rect.bottom)*canvas.height
         };
     }
 
     function render() {
-
         window.requestAnimationFrame(render, canvas);
 
-        positionLocation = gl.getAttribLocation(program, "a_position");
+        positionLocation = gl.getAttribLocation(program, "position");
         gl.enableVertexAttribArray(positionLocation);
         gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
         mousePosition = gl.getUniformLocation(program, "mouse");
-        gl.uniform2f(mousePosition, mousePos.x / canvas.width, mousePos.y / canvas.height);
+        gl.uniform2f(mousePosition, mousePos.x , mousePos.y);
 
         resolutionPosition = gl.getUniformLocation(program, "resolution");
         gl.uniform2f(resolutionPosition, canvas.width, canvas.height);
 
         timePosition = gl.getUniformLocation(program, "time");
         gl.uniform1f(timePosition, (new Date().getTime() - start) / 1000);
+
+        offsetPosition = gl.getUniformLocation(program, "offset");
+        gl.uniform2f(offsetPosition, 0, 0);
+
+        pitchPosition = gl.getUniformLocation(program, "pitch");
+        gl.uniform2f(pitchPosition, 80, 80);
 
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
