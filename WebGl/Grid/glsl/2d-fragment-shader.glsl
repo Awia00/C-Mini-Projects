@@ -11,23 +11,22 @@ precision mediump float;
 uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
+uniform vec2 rotation;
 
 uniform vec2 offset; // e.g. [-0.023500000000000434 0.9794000000000017], currently the same as the x/y offset in the mvMatrix
 uniform vec2 pitch;  // e.g. [50 50]
 
 void main() {
-  float scaleFactor = 1000.0;
-  float displacement = 100000.0;
+  float displacement = 1000.0;
+  float reach = 50.0;
 
-  vec2 pitchGravitated = pitch;
-  
-  float deltaX = abs(gl_FragCoord.x-mouse.x);
-  float deltaY = abs(mouse.y-gl_FragCoord.y);
-  float distance = sqrt(deltaX*deltaX + deltaY*deltaY);
-  float newPosX = pitch[0] + displacement/((distance*distance));
-  float newPosY = pitch[1] + displacement/((distance*distance));
-  float offX = (scaleFactor * offset[0]) + gl_FragCoord.x;
-  float offY = (scaleFactor * offset[1]) + (gl_FragCoord.y);
+  float deltaX = mouse.x-gl_FragCoord.x;
+  float deltaY = mouse.y-gl_FragCoord.y;
+  float distance = sqrt(deltaX*deltaX + deltaY*deltaY)+reach;
+  float newPosX = pitch[0] + deltaX*displacement/((distance*distance));
+  float newPosY = pitch[1] + deltaY*displacement/((distance*distance));
+  float offX = (offset[0]) + gl_FragCoord.x;
+  float offY = (offset[1]) + (gl_FragCoord.y);
 
   float modX = mod(offX, newPosX);
   float modY = mod(offY, newPosY);

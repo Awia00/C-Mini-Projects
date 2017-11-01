@@ -95,6 +95,9 @@ exports.render = function() {
         resolutionPosition = gl.getUniformLocation(program, "resolution");
         gl.uniform2f(resolutionPosition, canvas.width, canvas.height);
 
+        rotationPosition = gl.getUniformLocation(program, "rotation");
+        gl.uniform2f(rotationPosition, 0.5, 0.8);
+
         timePosition = gl.getUniformLocation(program, "time");
         gl.uniform1f(timePosition, (new Date().getTime() - start) / 1000);
 
