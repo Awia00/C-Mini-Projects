@@ -20,10 +20,10 @@ void main() {
 
   float modX = mod(gl_FragCoord.x, newPosX);
   float modY = mod(gl_FragCoord.y, newPosY);
-  if (modX <= 2.5 ||
-      modY <= 2.5) {
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.15*(1.0-distance/resolution.x));
+  if (modX <= 4.0 || modY <= 4.0) {
+    float strength = 0.5 *(1.0 - abs((2.0-min(modX, modY))/2.0));
+    gl_FragColor = vec4(0.0, 0.0, 0.0, strength*(1.0-distance/resolution.x));
   } else {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
   }
 }
