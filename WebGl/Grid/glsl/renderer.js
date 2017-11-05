@@ -7,6 +7,14 @@ exports.render = function() {
 
     window.onload = init;
 
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
+            y:  (evt.clientY-rect.bottom)/(rect.top-rect.bottom)*canvas.height
+        };
+    }
+    
     function viewportToPixels(value) {
         var parts = value.match(/([0-9\.]+)(vh|vw)/)
         var q = Number(parts[1])
@@ -29,8 +37,6 @@ exports.render = function() {
         canvas = document.getElementById('glscreen');
         canvas.addEventListener('mousemove', function(evt) {
             mousePos = getMousePos(canvas, evt);
-            console.log(mousePos.x);
-            console.log(mousePos.y);
         }, false);
         window.addEventListener('resize', function(evt){
             getSize();
@@ -72,14 +78,6 @@ exports.render = function() {
 
         render();
 
-    }
-
-    function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
-            y:  (evt.clientY-rect.bottom)/(rect.top-rect.bottom)*canvas.height
-        };
     }
 
     function render() {
