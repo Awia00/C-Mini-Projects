@@ -3,4 +3,4 @@ COPY . /app
 WORKDIR /app
 RUN npm install
 EXPOSE 1234
-ENTRYPOINT ["npm", "run server"]
+ENTRYPOINT ["npm", "run", "server"]
