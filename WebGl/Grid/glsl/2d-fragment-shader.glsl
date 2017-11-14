@@ -13,15 +13,15 @@ vec4 grid(float modX, float modY, float distance) {
 }
 
 void main() {
-  float displacement = 1000.0;// + 50.0*sin(time*4.0);
-  float reach = 5000.0;
+  float gravity = 50.0;// + 50.0*sin(time*4.0);
+  float reach = 10000.0;
 
   vec2 delta = mouse-gl_FragCoord.xy;
   float distance = length(delta);
-  vec2 newPos = pitch + delta*displacement/((distance*distance + reach)); // gravity
+  vec2 newPos = pitch + delta*gravity/((distance*distance + reach)); // gravity
 
-  float modX = mod(gl_FragCoord.x, newPos.x);
-  float modY = mod(gl_FragCoord.y, newPos.y);
+  float modX = mod(reach + gl_FragCoord.x, newPos.x);
+  float modY = mod(reach + gl_FragCoord.y, newPos.y);
   
   gl_FragColor = grid(modX, modY, distance);
 }
