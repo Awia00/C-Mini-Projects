@@ -6,7 +6,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --progress -p",
         "watch": "webpack --progress --watch",
-        "server": "webpack-dev-server --open --port 8080"
+        "server": "webpack-dev-server --open",
+        "start": "node_modules/.bin/webpack-dev-server --host 0.0.0.0 --port 80"
     },
     "author": "",
     "license": "BSD-2-Clause",
