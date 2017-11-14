@@ -10,19 +10,21 @@ exports.render = function() {
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
-            x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
-            y:  (evt.clientY-rect.bottom)/(rect.top-rect.bottom)*canvas.height
+            x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (evt.clientY - rect.bottom) / (rect.top - rect.bottom) * canvas.height
         };
     }
-    
+
     function viewportToPixels(value) {
         var parts = value.match(/([0-9\.]+)(vh|vw)/)
         var q = Number(parts[1])
-        var side = window[['innerHeight', 'innerWidth'][['vh', 'vw'].indexOf(parts[2])]]
-        return side * (q/100)
+        var side = window[['innerHeight', 'innerWidth'][
+            ['vh', 'vw'].indexOf(parts[2])
+        ]]
+        return side * (q / 100)
     }
 
-    function getSize(){
+    function getSize() {
         canvas.width = viewportToPixels(canvas.style.width);
         canvas.height = viewportToPixels(canvas.style.height);
     }
@@ -38,7 +40,7 @@ exports.render = function() {
         canvas.addEventListener('mousemove', function(evt) {
             mousePos = getMousePos(canvas, evt);
         }, false);
-        window.addEventListener('resize', function(evt){
+        window.addEventListener('resize', function(evt) {
             getSize();
         });
         getSize();
@@ -85,10 +87,10 @@ exports.render = function() {
 
         positionLocation = gl.getAttribLocation(program, "position");
         gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, true, 0, 0);
 
         mousePosition = gl.getUniformLocation(program, "mouse");
-        gl.uniform2f(mousePosition, mousePos.x , mousePos.y);
+        gl.uniform2f(mousePosition, mousePos.x, mousePos.y);
 
         resolutionPosition = gl.getUniformLocation(program, "resolution");
         gl.uniform2f(resolutionPosition, canvas.width, canvas.height);
