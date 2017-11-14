@@ -7,8 +7,8 @@ uniform vec2 rotation;
 uniform vec2 pitch; // number of grids
 
 vec4 grid(float modX, float modY, float distance) {
-  float strength = 0.5 * (1.0 - abs((2.0-min(modX, modY))/2.0)); // anti alias.
-  float fade = abs(1.1-distance/resolution).x; // 1.2 due to some scaling
+  float strength = 0.5 * (1.0 - abs((2.0-min(modX, modY))/2.0)); // grid alpa 0.5 and then anti alias.
+  float fade = max(0.0, 1.0-distance/resolution.x); // 1.2 due to some scaling
   return vec4(0.0, 0.0, 0.0, strength*fade);
 }
 
