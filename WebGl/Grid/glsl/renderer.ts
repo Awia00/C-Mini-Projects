@@ -1,22 +1,26 @@
-declare function require(name:string);
-let vertexShaderSource = require('./2d-vertex-shader.glsl');
-let fragmentShaderSource = require('./2d-fragment-shader.glsl');
+declare function require(name:string):any;
+let vertexShaderSource:any = require("./2d-vertex-shader.glsl");
+let fragmentShaderSource:any = require("./2d-fragment-shader.glsl");
 
-class Renderer  {
+export interface IRenderable {
+    renderOnCanvas(canvas : HTMLCanvasElement): void;
+}
+
+class Renderer implements IRenderable {
     gl:WebGLRenderingContext;
     program:WebGLProgram;
-    canvas:HTMLCanvasElement = <HTMLCanvasElement> document.getElementById('glscreen');
+    canvas:HTMLCanvasElement;
     mousePos = { x: 0.0, y: 0.0 };
     start = new Date().getTime();
-    
-    doStuff(){
+
+    renderOnCanvas (canvas : HTMLCanvasElement): void {
+        this.canvas = canvas;
         window.onload = () => this.init();
     }
 
-    getMousePos(canvas:HTMLCanvasElement, evt:Event) {
-        var rect = canvas.getBoundingClientRect();
-        var mouseEvt = <MouseEvent> evt;
-        var touchEvt = <TouchEvent> evt;
+    getMousePos(canvas:HTMLCanvasElement, evt:Event): {x:number, y:number} {
+        var rect : ClientRect = canvas.getBoundingClientRect();
+        var mouseEvt : MouseEvent = <MouseEvent> evt;
         return {
             x: (mouseEvt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
             y: (mouseEvt.clientY - rect.bottom) / (rect.top - rect.bottom) * canvas.height
@@ -24,35 +28,36 @@ class Renderer  {
     }
 
     viewportToPixels(value:string, isHeight:boolean): number {
-        var parts = value.match(/([0-9\.]+)(vh|vw)/);
-        var q = Number(parts[1]);
-        if(isHeight)
-            return window.innerHeight * (q/100);
-        else
-            return window.innerWidth * (q/100);
+        var parts: RegExpMatchArray = value.match(/([0-9\.]+)(vh|vw)/);
+        var q: number = Number(parts[1]);
+        if(isHeight) {
+            return window.innerHeight * (q / 100);
+        } else {
+            return window.innerWidth * (q / 100);
+        }
     }
 
-    getSize() {
+    getSize(): void {
         this.canvas.width = this.viewportToPixels(this.canvas.style.width, false);
         this.canvas.height = this.viewportToPixels(this.canvas.style.height, true);
     }
 
-    addListeners() {
-        this.canvas.addEventListener('mousemove', (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
-        this.canvas.addEventListener('touchmove', (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
+    addListeners(): void {
+        this.canvas.addEventListener("mousemove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
+        this.canvas.addEventListener("touchmove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
         window.onresize = () => this.getSize();
     }
 
-    init() {
-        var vertexShader;
-        var fragmentShader;
+    init(): void {
+        var vertexShader: WebGLShader;
+        var fragmentShader: WebGLShader;
 
         this.addListeners();
         this.getSize();
 
-        this.gl = this.canvas.getContext('experimental-webgl');
+        this.gl = this.canvas.getContext("experimental-webgl");
 
-        var buffer = this.gl.createBuffer();
+        var buffer: WebGLBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
         this.gl.bufferData(
             this.gl.ARRAY_BUFFER,
@@ -83,31 +88,31 @@ class Renderer  {
         this.render();
     }
 
-    addGLProperties() {
-        var positionLocation = this.gl.getAttribLocation(this.program, "position");
+    addGLProperties(): void {
+        var positionLocation:number = this.gl.getAttribLocation(this.program, "position");
         this.gl.enableVertexAttribArray(positionLocation);
         this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, true, 0, 0);
 
-        var mousePosition = this.gl.getUniformLocation(this.program, "mouse");
+        var mousePosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "mouse");
         this.gl.uniform2f(mousePosition, this.mousePos.x, this.mousePos.y);
 
-        var resolutionPosition = this.gl.getUniformLocation(this.program, "resolution");
+        var resolutionPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "resolution");
         this.gl.uniform2f(resolutionPosition, this.canvas.width, this.canvas.height);
 
-        var rotationPosition = this.gl.getUniformLocation(this.program, "rotation");
+        var rotationPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "rotation");
         this.gl.uniform2f(rotationPosition, 0.5, 0.8);
 
-        var timePosition = this.gl.getUniformLocation(this.program, "time");
+        var timePosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "time");
         this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
 
-        var offsetPosition = this.gl.getUniformLocation(this.program, "offset");
+        var offsetPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "offset");
         this.gl.uniform2f(offsetPosition, 0, 0);
 
-        var pitchPosition = this.gl.getUniformLocation(this.program, "pitch");
+        var pitchPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "pitch");
         this.gl.uniform2f(pitchPosition, 80, 80);
     }
 
-    render() {
+    render(): void {
         window.requestAnimationFrame(() => this.render());
 
         this.addGLProperties();

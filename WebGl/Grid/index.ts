@@ -1,5 +1,5 @@
 // index.
-import { Renderer } from "./glsl/renderer";
+import { Renderer, IRenderable } from "./glsl/renderer";
 
-let renderer = new Renderer();
-renderer.doStuff();
+let renderer:IRenderable = new Renderer();
+renderer.renderOnCanvas(<HTMLCanvasElement> document.getElementById("glscreen"));
