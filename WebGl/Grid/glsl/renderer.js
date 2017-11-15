@@ -1,10 +1,9 @@
 exports.render = function() {
+    // properties
     var gl;
-    var canvas;
-    var buffer;
+    var canvas = document.getElementById('glscreen');
     var mousePos = { x: 0.0, y: 0.0 };
     var start = new Date().getTime();
-
     window.onload = init;
 
     function getMousePos(canvas, evt) {
@@ -29,26 +28,30 @@ exports.render = function() {
         canvas.height = viewportToPixels(canvas.style.height);
     }
 
-    function init() {
-
-        var shaderScript;
-        var shaderSource;
-        var vertexShader;
-        var fragmentShader;
-
-        canvas = document.getElementById('glscreen');
+    function addListeners(canvas) {
         canvas.addEventListener('mousemove', function(evt) {
+            mousePos = getMousePos(canvas, evt);
+        }, false);
+        canvas.addEventListener('touchmove', function(evt) {
             mousePos = getMousePos(canvas, evt);
         }, false);
         window.addEventListener('resize', function(evt) {
             getSize();
         });
+    }
+
+    function init() {
+        var shaderScript;
+        var shaderSource;
+        var vertexShader;
+        var fragmentShader;
+
+        addListeners(canvas);
         getSize();
 
         gl = canvas.getContext('experimental-webgl');
 
-
-        buffer = gl.createBuffer();
+        var buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(
             gl.ARRAY_BUFFER,
@@ -79,12 +82,9 @@ exports.render = function() {
         gl.useProgram(program);
 
         render();
-
     }
 
-    function render() {
-        window.requestAnimationFrame(render, canvas);
-
+    function addGLProperties() {
         positionLocation = gl.getAttribLocation(program, "position");
         gl.enableVertexAttribArray(positionLocation);
         gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, true, 0, 0);
@@ -106,6 +106,12 @@ exports.render = function() {
 
         pitchPosition = gl.getUniformLocation(program, "pitch");
         gl.uniform2f(pitchPosition, 80, 80);
+    }
+
+    function render() {
+        window.requestAnimationFrame(render, canvas);
+
+        addGLProperties();
 
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
