@@ -7,14 +7,15 @@ export interface IRenderable {
 }
 
 class Renderer implements IRenderable {
-    gl:WebGLRenderingContext;
-    program:WebGLProgram;
-    canvas:HTMLCanvasElement;
-    mousePos = { x: 0.0, y: 0.0 };
-    start = new Date().getTime();
+    private gl:WebGLRenderingContext;
+    private program:WebGLProgram;
+    private canvas:HTMLCanvasElement;
+    private mousePos = { x: 0.0, y: 0.0 };
+    private start:number = new Date().getTime();
 
     renderOnCanvas (canvas : HTMLCanvasElement): void {
         this.canvas = canvas;
+        this.gl = this.canvas.getContext("experimental-webgl");
         window.onload = () => this.init();
     }
 
@@ -54,8 +55,6 @@ class Renderer implements IRenderable {
 
         this.addListeners();
         this.getSize();
-
-        this.gl = this.canvas.getContext("experimental-webgl");
 
         var buffer: WebGLBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
