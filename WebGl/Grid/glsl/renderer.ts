@@ -32,8 +32,8 @@ class Renderer implements IRenderable {
         var rect : ClientRect = canvas.getBoundingClientRect();
         var touchEvt : TouchEvent = <TouchEvent> evt;
         return {
-            x: (touchEvt[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-            y: (touchEvt[0].clientY - rect.bottom) / (rect.top - rect.bottom) * canvas.height
+            x: (touchEvt.touches[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (touchEvt.touches[0].clientY - rect.bottom) / (rect.top - rect.bottom) * canvas.height
         };
     }
 
