@@ -28,6 +28,15 @@ class Renderer implements IRenderable {
         };
     }
 
+    getTouchPos(canvas:HTMLCanvasElement, evt:Event): {x:number, y:number} {
+        var rect : ClientRect = canvas.getBoundingClientRect();
+        var touchEvt : TouchEvent = <TouchEvent> evt;
+        return {
+            x: (touchEvt[0].clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (touchEvt[0].clientY - rect.bottom) / (rect.top - rect.bottom) * canvas.height
+        };
+    }
+
     viewportToPixels(value:string, isHeight:boolean): number {
         var parts: RegExpMatchArray = value.match(/([0-9\.]+)(vh|vw)/);
         var q: number = Number(parts[1]);
@@ -45,7 +54,7 @@ class Renderer implements IRenderable {
 
     addListeners(): void {
         this.canvas.addEventListener("mousemove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
-        this.canvas.addEventListener("touchmove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
+        this.canvas.addEventListener("touchmove", (evt) => this.mousePos = this.getTouchPos(this.canvas, evt), false);
         window.onresize = () => this.getSize();
     }
 
