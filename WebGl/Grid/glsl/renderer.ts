@@ -3,7 +3,7 @@ let vertexShaderSource:any = require("./2d-vertex-shader.glsl");
 let fragmentShaderSource:any = require("./2d-fragment-shader.glsl");
 
 export interface IRenderable {
-    renderOnCanvas(canvas : HTMLCanvasElement): void;
+    renderOnCanvas(canvas : HTMLElement): void;
 }
 
 class Renderer implements IRenderable {
@@ -13,8 +13,11 @@ class Renderer implements IRenderable {
     private mousePos = { x: 0.0, y: 0.0 };
     private start:number = new Date().getTime();
 
-    renderOnCanvas (canvas : HTMLCanvasElement): void {
-        this.canvas = canvas;
+    renderOnCanvas (div : HTMLElement): void {
+        this.canvas = document.createElement("canvas");
+        this.canvas.style.width = "100%";
+        this.canvas.style.height = "100%";
+        div.appendChild(this.canvas);
         this.gl = this.canvas.getContext("experimental-webgl");
         window.onload = () => this.init();
     }
@@ -48,14 +51,14 @@ class Renderer implements IRenderable {
     }
 
     getSize(): void {
-        this.canvas.width = this.viewportToPixels(this.canvas.style.width, false);
-        this.canvas.height = this.viewportToPixels(this.canvas.style.height, true);
+        this.canvas.width = this.canvas.clientWidth;
+        this.canvas.height = this.canvas.clientHeight;
     }
 
     addListeners(): void {
         this.canvas.addEventListener("mousemove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
         this.canvas.addEventListener("touchmove", (evt) => this.mousePos = this.getTouchPos(this.canvas, evt), false);
-        window.onresize = () => this.getSize();
+        window.onresize = () => setTimeout(() => this.getSize(), 1);
     }
 
     init(): void {

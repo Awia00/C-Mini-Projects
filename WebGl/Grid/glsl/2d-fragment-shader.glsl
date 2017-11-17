@@ -13,7 +13,7 @@ vec4 grid(float modX, float modY, float distance) {
 }
 
 void main() {
-  float gravity = 50.0;// + 50.0*sin(time*4.0);
+  float gravity = 50.0;// + 50.0*(time*4.0);
   float reach = 10000.0;
 
   vec2 delta = mouse-gl_FragCoord.xy;
