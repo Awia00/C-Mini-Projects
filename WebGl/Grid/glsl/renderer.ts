@@ -124,11 +124,11 @@ class Renderer implements IRenderable {
     }
 
     render(): void {
-        window.requestAnimationFrame(() => this.render());
-
         this.addGLProperties();
 
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+
+        requestAnimationFrame(() => this.render());
     }
 }
 
