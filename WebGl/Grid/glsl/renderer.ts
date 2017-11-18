@@ -11,7 +11,11 @@ class Renderer implements IRenderable {
     private program:WebGLProgram;
     private canvas:HTMLCanvasElement;
     private mousePos = { x: 0.0, y: 0.0 };
+    private oldMousePos = { x: 0.0, y: 0.0 };
+    private delta = undefined;
     private start:number = new Date().getTime();
+    private lastInput:number = 3;
+    private isInput: boolean = false;
 
     renderOnCanvas (div : HTMLElement): void {
         this.canvas = document.createElement("canvas");
@@ -55,9 +59,49 @@ class Renderer implements IRenderable {
         this.canvas.height = this.canvas.clientHeight;
     }
 
+    setTimedInterval(callback:()=>void, delay:number, timeout:number): void {
+        var id:number = window.setInterval(callback, delay);
+        window.setTimeout(()=> {
+            window.clearInterval(id);
+        }, timeout);
+    }
+
     addListeners(): void {
-        this.canvas.addEventListener("mousemove", (evt) => this.mousePos = this.getMousePos(this.canvas, evt), false);
-        this.canvas.addEventListener("touchmove", (evt) => this.mousePos = this.getTouchPos(this.canvas, evt), false);
+        this.canvas.addEventListener("mouseenter", (evt) => {
+            this.isInput = true;
+            this.delta = undefined;
+        }, true);
+        this.canvas.addEventListener("touchstart", (evt) => {
+            this.isInput = true;
+            this.delta = undefined;
+        }, true);
+
+        this.canvas.addEventListener("mousemove", (evt) => {
+            this.oldMousePos = this.mousePos;
+            this.mousePos = this.getMousePos(this.canvas, evt);
+        }, false);
+        this.canvas.addEventListener("touchmove", (evt) => {
+            this.oldMousePos = this.mousePos;
+            this.mousePos = this.getTouchPos(this.canvas, evt);
+        }, false);
+
+        this.canvas.addEventListener("touchend", (evt) =>  {
+            this.delta = { x: this.mousePos.x-this.oldMousePos.x, y: this.mousePos.y-this.oldMousePos.y };
+            this.setTimedInterval(()=> {
+                if (this.delta) {
+                    this.mousePos = {
+                        x:this.mousePos.x + this.delta.x*(this.lastInput)/1000,
+                        y: this.mousePos.y + this.delta.y*(this.lastInput)/1000
+                    };
+                }
+            }, 10, 750);
+
+            this.isInput = false;
+        }, false);
+
+        this.canvas.addEventListener("mouseleave", (evt) =>  {
+            this.isInput = false;
+        }, false);
         window.onresize = () => setTimeout(() => this.getSize(), 1);
     }
 
@@ -116,6 +160,9 @@ class Renderer implements IRenderable {
         var timePosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "time");
         this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
 
+        var strengthPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "strength");
+        this.gl.uniform1f(strengthPosition, this.lastInput/100);
+
         var offsetPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "offset");
         this.gl.uniform2f(offsetPosition, 0, 0);
 
@@ -129,6 +176,11 @@ class Renderer implements IRenderable {
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
 
         requestAnimationFrame(() => this.render());
+        if (!this.isInput && this.lastInput > 1) {
+            this.lastInput-=2;
+        } else if (this.isInput && this.lastInput < 150) {
+            this.lastInput+=10;
+        }
     }
 }
 
