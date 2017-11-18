@@ -74,6 +74,7 @@ class Renderer implements IRenderable {
         this.canvas.addEventListener("touchstart", (evt) => {
             this.isInput = true;
             this.delta = undefined;
+            this.mousePos = this.getTouchPos(this.canvas, evt);
         }, true);
 
         this.canvas.addEventListener("mousemove", (evt) => {
@@ -94,7 +95,7 @@ class Renderer implements IRenderable {
                         y: this.mousePos.y + this.delta.y*(this.lastInput)/250
                     };
                 }
-            }, 18, 750);
+            }, 18, 1000);
 
             this.isInput = false;
         }, false);
