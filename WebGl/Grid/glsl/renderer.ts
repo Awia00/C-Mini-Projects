@@ -90,11 +90,11 @@ class Renderer implements IRenderable {
             this.setTimedInterval(()=> {
                 if (this.delta) {
                     this.mousePos = {
-                        x:this.mousePos.x + this.delta.x*(this.lastInput)/1000,
-                        y: this.mousePos.y + this.delta.y*(this.lastInput)/1000
+                        x:this.mousePos.x + this.delta.x*(this.lastInput)/250,
+                        y: this.mousePos.y + this.delta.y*(this.lastInput)/250
                     };
                 }
-            }, 10, 750);
+            }, 18, 750);
 
             this.isInput = false;
         }, false);
