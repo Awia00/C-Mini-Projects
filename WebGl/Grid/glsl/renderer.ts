@@ -162,7 +162,7 @@ class Renderer implements IRenderable {
         this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
 
         var strengthPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "strength");
-        this.gl.uniform1f(strengthPosition, this.lastInput/100);
+        this.gl.uniform1f(strengthPosition, this.lastInput/100.0);
 
         var offsetPosition:WebGLUniformLocation = this.gl.getUniformLocation(this.program, "offset");
         this.gl.uniform2f(offsetPosition, 0, 0);
@@ -177,10 +177,10 @@ class Renderer implements IRenderable {
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
 
         requestAnimationFrame(() => this.render());
-        if (!this.isInput && this.lastInput > 1) {
+        if (!this.isInput && this.lastInput > 3) {
             this.lastInput-=2;
         } else if (this.isInput && this.lastInput < 150) {
-            this.lastInput+=10;
+            this.lastInput+=5;
         }
     }
 }
