@@ -1,6 +1,6 @@
 declare function require(name:string):any;
-let vertexShaderSource:any = require("./2d-vertex-shader.glsl");
-let fragmentShaderSource:any = require("./2d-fragment-shader.glsl");
+let vertexShaderSource:any = require("./glsl/2d-vertex-shader.glsl");
+let fragmentShaderSource:any = require("./glsl/2d-fragment-shader.glsl");
 
 export interface IRenderable {
     renderOnCanvas(canvas : HTMLElement): void;
@@ -12,7 +12,7 @@ class Renderer implements IRenderable {
     private canvas:HTMLCanvasElement;
     private mousePos = { x: 0.0, y: 0.0 };
     private oldMousePos = { x: 0.0, y: 0.0 };
-    private delta = undefined;
+    private delta:{x:number, y:number} = undefined;
     private start:number = new Date().getTime();
     private lastInput:number = 3;
     private isInput: boolean = false;

@@ -1,22 +1,33 @@
 // webpack.config.js
 module.exports = {
     entry: {
-        index: ['./index.ts', './glsl/renderer.ts', './glsl/2d-vertex-shader.glsl', './glsl/2d-fragment-shader.glsl']
+        index: ['./src']
     },
     output: {
         path: __dirname + '/dist/',
         filename: 'bundle.js'
     },
     resolve: {
-        // Add '.ts' and '.tsx' as a resolvable extension.
-        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".css"]
     },
+    devtool: 'source-map',
     module: {
         loaders: [{
+                enforce: 'pre',
                 test: /\.glsl$/,
-                loader: 'webpack-glsl-loader'
+                loader: 'webpack-glsl-loader',
+                include: __dirname + '/src',
             },
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            {
+                enforce: 'pre',
+                test: /\.tsx?$/, 
+                loader: "ts-loader",
+                include: __dirname + '/src',
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader" 
+            }
         ]
     }
 };
