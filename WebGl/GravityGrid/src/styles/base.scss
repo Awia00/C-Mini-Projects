@@ -3,3 +3,14 @@
   border: 10px solid cornflowerblue;
   padding: 10px;
 }
+
+.noscroll {
+  overflow: hidden;
+  position: fixed;
+}
+
+.fill {
+  width: 100vw;
+  height: 100vh;
+  margin:0px;
+}
