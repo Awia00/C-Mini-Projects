@@ -78,6 +78,7 @@ class Renderer implements IRenderable {
             this.isInput = true;
             this.delta = undefined;
             this.mousePos = this.getTouchPos(this.canvas, evt);
+            this.oldMousePos = this.mousePos;
         }, true);
 
         this.canvas.addEventListener("mousemove", (evt) => {
