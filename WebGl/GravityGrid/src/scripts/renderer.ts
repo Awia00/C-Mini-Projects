@@ -8,16 +8,15 @@ export interface IRenderable {
     renderOnCanvas(canvas: HTMLElement): void;
 }
 
+import { Press } from "./Press"
+
 class Renderer implements IRenderable {
     private gl: WebGLRenderingContext | null;
     private program: WebGLProgram | null;
     private canvas: HTMLCanvasElement;
-    private mousePos = { x: 0.0, y: 0.0 };
-    private oldMousePos = { x: 0.0, y: 0.0 };
-    private delta: { x: number; y: number } | undefined;
     private start: number = new Date().getTime();
-    private lastInput: number = 3;
-    private isInput: boolean = false;
+    
+    private presses : Press[] = Array(0); // mouse + 7 touch points.
 
     public renderOnCanvas(div: HTMLElement): void {
         this.canvas = document.createElement('canvas');
@@ -43,16 +42,15 @@ class Renderer implements IRenderable {
         };
     }
 
-    private getTouchPos(canvas: HTMLCanvasElement, evt: Event): { x: number; y: number } {
+    private getTouchPos(canvas: HTMLCanvasElement, touch: Touch): { x: number; y: number } {
         const rect: ClientRect = canvas.getBoundingClientRect();
-        const touchEvt: TouchEvent = evt as TouchEvent;
         return {
             x:
-                (touchEvt.touches[0].clientX - rect.left) /
+                (touch.clientX - rect.left) /
                 (rect.right - rect.left) *
                 canvas.width,
             y:
-                (touchEvt.touches[0].clientY - rect.bottom) /
+                (touch.clientY - rect.bottom) /
                 (rect.top - rect.bottom) *
                 canvas.height,
         };
@@ -85,48 +83,65 @@ class Renderer implements IRenderable {
 
     private addListeners(): void {
         this.canvas.addEventListener('mouseenter', evt => {
-            this.isInput = true;
-            this.delta = undefined;
-        }, true);
-
-        this.canvas.addEventListener('touchstart', evt => {
-            this.isInput = true;
-            this.delta = undefined;
-            this.mousePos = this.getTouchPos(this.canvas, evt);
-            this.oldMousePos = this.mousePos;
+            this.presses[0] = new Press(0);
         }, true);
 
         this.canvas.addEventListener('mousemove', evt => {
-            this.oldMousePos = this.mousePos;
-            this.mousePos = this.getMousePos(this.canvas, evt);
-        }, false);
-        
-        this.canvas.addEventListener('touchmove', evt => {
-            this.oldMousePos = this.mousePos;
-            this.mousePos = this.getTouchPos(this.canvas, evt);
-        }, false);
-
-        this.canvas.addEventListener('touchend', evt => {
-            this.delta = {
-                x: this.mousePos.x - this.oldMousePos.x,
-                y: this.mousePos.y - this.oldMousePos.y,
-            };
-
-            this.setTimedInterval(() => {
-                if (this.delta) {
-                    this.mousePos = {
-                        x: this.mousePos.x + this.delta.x * this.lastInput / 250,
-                        y: this.mousePos.y + this.delta.y * this.lastInput / 250,
-                    };
-                }
-            }, 18, 1000);
-            this.isInput = false;
+            if (!this.presses[0]) {
+                this.presses[0] = new Press(0);
+            }
+            this.presses[0].old = this.presses[0].current;
+            this.presses[0].current = this.getMousePos(this.canvas, evt);
         }, false);
 
         this.canvas.addEventListener('mouseleave', evt => {
-            this.isInput = false;
+            this.presses[0].isDead = true;
         }, false);
-        
+
+
+        this.canvas.addEventListener('touchstart', evt => {
+            for (let i = 0; i<evt.changedTouches.length; i++) {
+                const touch: Touch = evt.touches[i];
+                const press: Press = new Press(touch.identifier);
+                this.presses[press.id + 1] = press;
+                this.presses[press.id + 1].current = this.getTouchPos(this.canvas, touch);
+            }
+        }, true);
+
+        this.canvas.addEventListener('touchmove', evt => {
+            // tslint:disable-next-line:prefer-for-of
+            for (let i = 0; i<evt.changedTouches.length; i++) {
+                const touch: Touch = evt.changedTouches[i];
+                const press: Press = this.presses[touch.identifier + 1];
+                press.old = press.current;
+                press.current = this.getTouchPos(this.canvas, touch);
+            }
+        }, false);
+
+        this.canvas.addEventListener('touchend', evt => {
+            const pressEnds: number[] = Array();
+            // tslint:disable-next-line:prefer-for-of
+            for (let i = 0; i<evt.changedTouches.length; i++) {
+                const touch: Touch = evt.changedTouches[i]; 
+                const press: Press = this.presses[touch.identifier + 1];
+                press.delta = { x: press.current.x - press.old.x, y: press.current.y - press.old.y };
+                press.isDead = true;
+                pressEnds.concat(press.id);
+            }
+            
+            this.setTimedInterval(() => {
+                // tslint:disable-next-line:prefer-for-of
+                for (let i = 0; i<evt.changedTouches.length; i++) {
+                    const touch: Touch = evt.changedTouches[i]; 
+                    const press: Press = this.presses[touch.identifier + 1];
+                    press.current = { 
+                        x: press.current.x + press.delta.x * press.power / 250, 
+                        y: press.current.y + press.delta.y * press.power / 250
+                    };
+                }
+            }, 18, 1000);
+        }, false);
+
         window.onresize = () => setTimeout(() => this.getSize(), 1);
     }
     
@@ -167,30 +182,30 @@ class Renderer implements IRenderable {
             const positionLocation: number = this.gl.getAttribLocation(this.program, 'position');
             this.gl.enableVertexAttribArray(positionLocation);
             this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, true, 0, 0);
-            const mousePosition: WebGLUniformLocation | null = this.gl.getUniformLocation(
-                this.program,
-                'mouse'
-            );
-            this.gl.uniform2f(mousePosition, this.mousePos.x, this.mousePos.y);
-            const resolutionPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(
-                this.program,
-                'resolution'
-            );
-            this.gl.uniform2f(
-                resolutionPosition,
-                this.canvas.width,
-                this.canvas.height
-            );
+            
+            const resolutionPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'resolution');
+            this.gl.uniform2f(resolutionPosition, this.canvas.width, this.canvas.height);
+            
             const rotationPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'rotation');
             this.gl.uniform2f(rotationPosition, 0.5, 0.8);
+            
             const timePosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'time');
             this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
-            const strengthPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'strength');
-            this.gl.uniform1f(strengthPosition, this.lastInput / 100.0);
+            
             const offsetPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'offset');
             this.gl.uniform2f(offsetPosition, 0, 0);
+            
             const pitchPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'pitch');
             this.gl.uniform2f(pitchPosition, 80, 80);
+            
+            for (let i: number = 0; i<7; i++) {
+                const pressPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, "presses["+i+"]");
+                if (this.presses[i]) {
+                    this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/100);
+                } else {
+                    this.gl.uniform3f(pressPosition, 0, 0, 0);
+                }
+            }
         }
     }
 
@@ -199,10 +214,13 @@ class Renderer implements IRenderable {
             this.addGLProperties();
             this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
             requestAnimationFrame(() => this.render());
-            if (!this.isInput && this.lastInput > 3) {
-                this.lastInput -= 2;
-            } else if (this.isInput && this.lastInput < 150) {
-                this.lastInput += 5;
+
+            for(const press of this.presses) {
+                if (press && press.isDead && press.power > 3) {
+                    press.power -= 2;
+                } else if (press && !press.isDead && press.power < 150) {
+                    press.power += 5;
+                }
             }
         }
     }
