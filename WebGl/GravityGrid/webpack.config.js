@@ -56,8 +56,7 @@ module.exports = {
         }),
 
         new ExtractTextPlugin({
-            filename: 'css/[name].[hash].css',
-            disable: !isProd,
+            filename: 'css/[name].[hash].css'
         }),
 
         new CopyWebpackPlugin([{ from: 'public' }]),
