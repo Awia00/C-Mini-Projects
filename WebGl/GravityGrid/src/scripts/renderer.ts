@@ -122,8 +122,8 @@ class Renderer implements IRenderable {
             this.presses[0].isDead = true;
         }, false);
 
-
         this.canvas.addEventListener('touchstart', evt => {
+            evt.preventDefault();
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
                 const touch: Touch = evt.changedTouches[i];
@@ -139,6 +139,7 @@ class Renderer implements IRenderable {
         }, false);
 
         this.canvas.addEventListener('touchmove', evt => {
+            evt.preventDefault();            
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
                 const touch: Touch = evt.changedTouches[i];
@@ -152,6 +153,7 @@ class Renderer implements IRenderable {
         }, false);
 
         this.canvas.addEventListener('touchend', evt => {
+            evt.preventDefault();            
             const ids: number[] = Array();
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
