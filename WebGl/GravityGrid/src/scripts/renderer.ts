@@ -92,10 +92,11 @@ class Renderer implements IRenderable {
         this.canvas.height = this.canvas.clientHeight;
     }
 
-    private setTimedInterval(callback: () => void, delay: number, timeout: number): void {
-        const id: number = window.setInterval(callback, delay);
+    private setTimedInterval(callbackInterval: () => void, callbackTimeout: () => void, delay: number, timeout: number): void {
+        const id: number = window.setInterval(callbackInterval, delay);
         window.setTimeout(() => {
             window.clearInterval(id);
+            callbackTimeout();
         }, timeout);
     }
 
@@ -171,7 +172,7 @@ class Renderer implements IRenderable {
                 }
             }
             
-            this.setTimedInterval(() => {
+            this.setTimedInterval(() => { // interval
                 // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i<ids.length; i++) {
                     const id = ids[i];
@@ -183,14 +184,13 @@ class Renderer implements IRenderable {
                         };
                     }
                 }
-            }, 18, 1000);
-            setTimeout(() => {
+            }, ()=> { // timeout
                 // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i<ids.length; i++) {
                     const id = ids[i];
                     this.presses[id] = new Press(-1);
                 }
-            }, 2000);
+            }, 18, 2000);
         }, false);
 
         window.onresize = () => setTimeout(() => this.getSize(), 1);
