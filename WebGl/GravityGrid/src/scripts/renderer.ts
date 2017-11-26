@@ -42,7 +42,7 @@ class Renderer implements IRenderable {
     }
 
     private takeFirstFreeIndex(id:number) : number {
-        for (let i = 0; i < this.presses.length; i++) {
+        for (let i = 1; i < this.presses.length; i++) {
             if (!this.presses[i] || this.presses[i].id === -1) {
                 this.idMapper[id] = i;
                 return i;
@@ -108,7 +108,7 @@ class Renderer implements IRenderable {
     private addListeners(): void {
         this.canvas.addEventListener('mouseenter', evt => {
             this.presses[0] = new Press(0);
-        }, true);
+        }, false);
 
         this.canvas.addEventListener('mousemove', evt => {
             if (!this.presses[0]) {
@@ -124,17 +124,19 @@ class Renderer implements IRenderable {
 
 
         this.canvas.addEventListener('touchstart', evt => {
+            // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
-                const touch: Touch = evt.touches[i];
+                const touch: Touch = evt.changedTouches[i];
                 const id = this.takeFirstFreeIndex(touch.identifier);
                 if (id >= 0) {
                     const press: Press = new Press(id);
+                    press.current = this.getTouchPos(this.canvas, touch);
+                    press.old = press.current;
+
                     this.presses[press.id] = press;
-                    this.presses[press.id].current = this.getTouchPos(this.canvas, touch);
-                    this.presses[press.id].old = this.presses[press.id].current;
                 }
             }
-        }, true);
+        }, false);
 
         this.canvas.addEventListener('touchmove', evt => {
             // tslint:disable-next-line:prefer-for-of

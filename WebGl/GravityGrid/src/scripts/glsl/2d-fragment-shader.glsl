@@ -19,7 +19,7 @@ void main() {
     vec2 pull = vec2(0.0, 0.0);
     float strength = 0.0;
     float minDistance = 10000.0;
-    for(int i = 0; i<2; i++){
+    for(int i = 0; i<7; i++){
         vec3 press = presses[i];
         vec2 delta = press.xy-gl_FragCoord.xy;
         float distance = length(delta);
