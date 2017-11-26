@@ -16,7 +16,8 @@ class Renderer implements IRenderable {
     private canvas: HTMLCanvasElement;
     private start: number = new Date().getTime();
     
-    private presses : Press[] = Array(0); // mouse + 7 touch points.
+    private idMapper: number[] = Array(0);
+    private presses : Press[] = Array(8); // mouse + 7 touch points.
 
     public renderOnCanvas(div: HTMLElement): void {
         this.canvas = document.createElement('canvas');
@@ -25,6 +26,29 @@ class Renderer implements IRenderable {
         div.appendChild(this.canvas);
         this.gl = this.canvas.getContext('experimental-webgl');
         window.onload = () => this.init();
+    }
+
+    private remove(array:Press[], element:number): void {
+        let index = -1;
+        for(let i = 0; i<array.length; i++) {
+            if(array[i].id === element) {
+                index = i;
+                break;
+            }
+        }
+        if (index>-1) {
+            array.splice(index,1);
+        }
+    }
+
+    private takeFirstFreeIndex(id:number) : number {
+        for (let i = 0; i < this.presses.length; i++) {
+            if (!this.presses[i] || this.presses[i].id === -1) {
+                this.idMapper[id] = i;
+                return i;
+            }
+        }
+        return -1;
     }
 
     private getMousePos(canvas: HTMLCanvasElement, evt: Event): { x: number; y: number } {
@@ -102,9 +126,13 @@ class Renderer implements IRenderable {
         this.canvas.addEventListener('touchstart', evt => {
             for (let i = 0; i<evt.changedTouches.length; i++) {
                 const touch: Touch = evt.touches[i];
-                const press: Press = new Press(touch.identifier);
-                this.presses[press.id + 1] = press;
-                this.presses[press.id + 1].current = this.getTouchPos(this.canvas, touch);
+                const id = this.takeFirstFreeIndex(touch.identifier);
+                if (id >= 0) {
+                    const press: Press = new Press(id);
+                    this.presses[press.id] = press;
+                    this.presses[press.id].current = this.getTouchPos(this.canvas, touch);
+                    this.presses[press.id].old = this.presses[press.id].current;
+                }
             }
         }, true);
 
@@ -112,34 +140,49 @@ class Renderer implements IRenderable {
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
                 const touch: Touch = evt.changedTouches[i];
-                const press: Press = this.presses[touch.identifier + 1];
-                press.old = press.current;
-                press.current = this.getTouchPos(this.canvas, touch);
+                const id = this.idMapper[touch.identifier];
+                if (id>=0) {
+                    const press: Press = this.presses[id];
+                    press.old = press.current;
+                    press.current = this.getTouchPos(this.canvas, touch);
+                }
             }
         }, false);
 
         this.canvas.addEventListener('touchend', evt => {
-            const pressEnds: number[] = Array();
+            const ids: number[] = Array();
             // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i<evt.changedTouches.length; i++) {
-                const touch: Touch = evt.changedTouches[i]; 
-                const press: Press = this.presses[touch.identifier + 1];
-                press.delta = { x: press.current.x - press.old.x, y: press.current.y - press.old.y };
-                press.isDead = true;
-                pressEnds.concat(press.id);
+                const touch: Touch = evt.changedTouches[i];
+                const id = this.idMapper[touch.identifier];
+                if (id>=0) {
+                    const press: Press = this.presses[id];
+                    press.delta = { x: press.current.x - press.old.x, y: press.current.y - press.old.y };
+                    press.isDead = true;
+                    ids.push(id);
+                }
             }
             
             this.setTimedInterval(() => {
                 // tslint:disable-next-line:prefer-for-of
-                for (let i = 0; i<evt.changedTouches.length; i++) {
-                    const touch: Touch = evt.changedTouches[i]; 
-                    const press: Press = this.presses[touch.identifier + 1];
-                    press.current = { 
-                        x: press.current.x + press.delta.x * press.power / 250, 
-                        y: press.current.y + press.delta.y * press.power / 250
-                    };
+                for (let i = 0; i<ids.length; i++) {
+                    const id = ids[i];
+                    if (id>=0) {
+                        const press: Press = this.presses[id];
+                        press.current = { 
+                            x: press.current.x + press.delta.x * press.power / 250, 
+                            y: press.current.y + press.delta.y * press.power / 250
+                        };
+                    }
                 }
             }, 18, 1000);
+            setTimeout(() => {
+                // tslint:disable-next-line:prefer-for-of
+                for (let i = 0; i<ids.length; i++) {
+                    const id = ids[i];
+                    this.presses[id] = new Press(-1);
+                }
+            }, 2000);
         }, false);
 
         window.onresize = () => setTimeout(() => this.getSize(), 1);
@@ -200,10 +243,8 @@ class Renderer implements IRenderable {
             
             for (let i: number = 0; i<7; i++) {
                 const pressPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, "presses["+i+"]");
-                if (this.presses[i]) {
+                if (this.presses[i] && this.presses[i].id !== -1) {
                     this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/100);
-                } else {
-                    this.gl.uniform3f(pressPosition, 0, 0, 0);
                 }
             }
         }
@@ -216,8 +257,8 @@ class Renderer implements IRenderable {
             requestAnimationFrame(() => this.render());
 
             for(const press of this.presses) {
-                if (press && press.isDead && press.power > 3) {
-                    press.power -= 2;
+                if (press && press.isDead && press.power > 1) {
+                    press.power -= 5;
                 } else if (press && !press.isDead && press.power < 150) {
                     press.power += 5;
                 }
