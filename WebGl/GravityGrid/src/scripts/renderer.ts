@@ -17,7 +17,7 @@ class Renderer implements IRenderable {
     private start: number = new Date().getTime();
     
     private idMapper: number[] = Array(0);
-    private presses : Press[] = Array(8); // mouse + 7 touch points.
+    private presses : Press[] = Array(6); // mouse + 5 touch points.
 
     public renderOnCanvas(div: HTMLElement): void {
         this.canvas = document.createElement('canvas');
@@ -238,19 +238,30 @@ class Renderer implements IRenderable {
             
             const timePosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'time');
             this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
-            
+
+            const gravityPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'gravity');
+            this.gl.uniform1f(gravityPosition, 50);
+
+            const reachPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'reach');
+            this.gl.uniform1f(reachPosition, 10000);
+
             const offsetPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'offset');
             this.gl.uniform2f(offsetPosition, 0, 0);
             
             const pitchPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'pitch');
             this.gl.uniform2f(pitchPosition, 80, 80);
-            
+
+            let presses: number = 0;
             for (let i: number = 0; i<7; i++) {
-                const pressPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, "presses["+i+"]");
                 if (this.presses[i] && this.presses[i].id !== -1) {
-                    this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/100);
+                    const pressPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, "presses["+presses+"]");
+                    this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/200);
+                    presses++;
                 }
             }
+
+            const amtPressesPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'amtPresses');
+            this.gl.uniform1i(amtPressesPosition, presses);
         }
     }
 
@@ -261,10 +272,10 @@ class Renderer implements IRenderable {
             requestAnimationFrame(() => this.render());
 
             for(const press of this.presses) {
-                if (press && press.isDead && press.power > 1) {
-                    press.power -= 5;
-                } else if (press && !press.isDead && press.power < 150) {
-                    press.power += 5;
+                if (press && press.isDead && press.power > 0) {
+                    press.power -= 2;
+                } else if (press && !press.isDead && press.power < 200) {
+                    press.power += 7;
                 }
             }
         }
