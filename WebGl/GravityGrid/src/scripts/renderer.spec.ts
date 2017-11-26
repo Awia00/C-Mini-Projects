@@ -8,6 +8,6 @@ describe('Renderer', () => {
     element = new HTMLElement();
   });
   it('should not crash', () => {
-    expect(greeter.renderOnCanvas(element)).Any();
+    expect(greeter.renderGravityGrid(element)).Any();
   });
 });

@@ -1,3 +1,5 @@
+import { Press } from "./Press"
+
 declare function require(name: string): string;
 const vertexShaderSource: string = (() =>
     require('./glsl/2d-vertex-shader.glsl'))();
@@ -5,10 +7,8 @@ const fragmentShaderSource: string = (() =>
     require('./glsl/2d-fragment-shader.glsl'))();
 
 export interface IRenderable {
-    renderOnCanvas(canvas: HTMLElement): void;
+    renderGravityGrid(div: HTMLElement): void;
 }
-
-import { Press } from "./Press"
 
 class Renderer implements IRenderable {
     private gl: WebGLRenderingContext | null;
@@ -19,13 +19,17 @@ class Renderer implements IRenderable {
     private idMapper: number[] = Array(0);
     private presses : Press[] = Array(6); // mouse + 5 touch points.
 
-    public renderOnCanvas(div: HTMLElement): void {
+    public renderGravityGrid(div: HTMLElement): void {
         this.canvas = document.createElement('canvas');
         this.canvas.style.width = '100%';
         this.canvas.style.height = '100%';
         div.appendChild(this.canvas);
         this.gl = this.canvas.getContext('experimental-webgl');
-        window.onload = () => this.init();
+
+        window.onload = () => {
+            this.init();
+            this.render();
+        }
     }
 
     private takeFirstFreeIndex(id:number) : number {
@@ -220,7 +224,6 @@ class Renderer implements IRenderable {
             this.gl.attachShader(this.program, fragmentShader);
             this.gl.linkProgram(this.program);
             this.gl.useProgram(this.program);
-            this.render();
         }
     }
 
