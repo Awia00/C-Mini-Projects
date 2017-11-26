@@ -1,13 +1,13 @@
 'use strict';
-var path = require('path');
+const path = require('path');
 
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var ENV = process.env.npm_lifecycle_event;
-var isProd = ENV === 'build';
+const ENV = process.env.npm_lifecycle_event;
+const isProd = ENV === 'build';
 
 module.exports = {
     entry: {
@@ -67,18 +67,4 @@ module.exports = {
         modules: ['node_modules', path.resolve(process.cwd(), 'src')],
         extensions: ['.ts', '.js', 'scss'],
     },
-
-    devServer: {
-        contentBase: path.join(process.cwd(), 'dist'),
-        clientLogLevel: 'info',
-        port: 8080,
-        inline: true,
-        historyApiFallback: false,
-        watchOptions: {
-            aggregateTimeout: 300,
-            poll: 500,
-        },
-    },
-
-    devtool: 'source-map',
 };
