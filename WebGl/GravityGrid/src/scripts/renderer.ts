@@ -42,13 +42,35 @@ class Renderer implements IRenderable {
     }
 
     private takeFirstFreeIndex(id:number) : number {
-        for (let i = 1; i < this.presses.length; i++) {
+        for (let i = 0; i < this.presses.length; i++) {
             if (!this.presses[i] || this.presses[i].id === -1) {
                 this.idMapper[id] = i;
                 return i;
             }
         }
         return -1;
+    }
+
+    private takeFirstFreeIndexMouse() : number {
+        for (let i = this.presses.length-1; i >= 0; i--) {
+            if (!this.presses[i] || this.presses[i].id === -1) {
+                this.idMapper[i] = i;
+                return i;
+            } else if (this.presses[i].isMouse && this.presses[i].isDead && this.presses[i].power <= 2) {
+                this.idMapper[i] = i;
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private findActiveMouse() : Press | null {
+        for (let i = this.presses.length-1; i >= 0; i--) {
+            if (this.presses[i] && this.presses[i].id !== -1 && !this.presses[i].isDead && this.presses[i].isMouse) {
+                return this.presses[i];
+            }
+        }
+        return null;
     }
 
     private getMousePos(canvas: HTMLCanvasElement, evt: Event): { x: number; y: number } {
@@ -107,19 +129,29 @@ class Renderer implements IRenderable {
 
     private addListeners(): void {
         this.canvas.addEventListener('mouseenter', evt => {
-            this.presses[0] = new Press(0);
+            const id: number = this.takeFirstFreeIndexMouse();
+            if (id > 0) {
+                const press: Press = new Press(id);
+                press.isMouse = true;
+                press.current = this.getMousePos(this.canvas, evt);
+                press.old = press.current;
+                this.presses[id] = press;
+            }
         }, false);
 
         this.canvas.addEventListener('mousemove', evt => {
-            if (!this.presses[0]) {
-                this.presses[0] = new Press(0);
+            const press: Press | null = this.findActiveMouse();
+            if (press) {
+                press.old = press.current;
+                press.current = this.getMousePos(this.canvas, evt);
             }
-            this.presses[0].old = this.presses[0].current;
-            this.presses[0].current = this.getMousePos(this.canvas, evt);
         }, false);
 
         this.canvas.addEventListener('mouseleave', evt => {
-            this.presses[0].isDead = true;
+            const press: Press | null = this.findActiveMouse();
+            if (press) {
+                press.isDead = true;
+            }
         }, false);
 
         this.canvas.addEventListener('touchstart', evt => {
