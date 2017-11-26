@@ -18,7 +18,7 @@ void main() {
     float resLength = length(resolution);
 
     vec2 pull = vec2(0.0, 0.0);
-    float strength = 0.2;
+    float strength = 0.15;
     for(int i = 0; i<=6; i++){
         if (amtPresses==i)
             break;
@@ -27,7 +27,7 @@ void main() {
         float distance = length(delta);
         pull += delta * (gravity*press.z / (distance*distance + reach));
         
-        float fade = max(0.2, 0.9-distance/resLength); // 1.2 due to some scaling
+        float fade = max(0.0, 0.9-distance/resLength); // 1.2 due to some scaling
         float dist = min(1.0, max(0.0, press.z));
         strength = max(strength, fade*dist);
     }

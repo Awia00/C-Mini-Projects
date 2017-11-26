@@ -28,19 +28,6 @@ class Renderer implements IRenderable {
         window.onload = () => this.init();
     }
 
-    private remove(array:Press[], element:number): void {
-        let index = -1;
-        for(let i = 0; i<array.length; i++) {
-            if(array[i].id === element) {
-                index = i;
-                break;
-            }
-        }
-        if (index>-1) {
-            array.splice(index,1);
-        }
-    }
-
     private takeFirstFreeIndex(id:number) : number {
         for (let i = 0; i < this.presses.length; i++) {
             if (!this.presses[i] || this.presses[i].id === -1) {
@@ -53,10 +40,10 @@ class Renderer implements IRenderable {
 
     private takeFirstFreeIndexMouse() : number {
         for (let i = this.presses.length-1; i >= 0; i--) {
-            if (!this.presses[i] || this.presses[i].id === -1) {
+            if (!this.presses[i] || this.presses[i].id === -1) { // no press
                 this.idMapper[i] = i;
                 return i;
-            } else if (this.presses[i].isMouse && this.presses[i].isDead && this.presses[i].power <= 2) {
+            } else if (this.presses[i].isMouse && this.presses[i].isDead && this.presses[i].power <= 2) { // dead press
                 this.idMapper[i] = i;
                 return i;
             }
@@ -73,46 +60,27 @@ class Renderer implements IRenderable {
         return null;
     }
 
-    private getMousePos(canvas: HTMLCanvasElement, evt: Event): { x: number; y: number } {
-        const rect: ClientRect = canvas.getBoundingClientRect();
-        const mouseEvt: MouseEvent = evt as MouseEvent;
+    private getPos(canvas: HTMLCanvasElement, x: number, y:number) : {x:number, y:number} {
+        const rect: ClientRect = canvas.getBoundingClientRect();        
         return {
             x:
-                (mouseEvt.clientX - rect.left) /
+                (x - rect.left) /
                 (rect.right - rect.left) *
                 canvas.width,
             y:
-                (mouseEvt.clientY - rect.bottom) /
+                (y - rect.bottom) /
                 (rect.top - rect.bottom) *
                 canvas.height,
         };
+    }
+    private getMousePos(canvas: HTMLCanvasElement, evt: Event): { x: number; y: number } {
+        const mouseEvt: MouseEvent = evt as MouseEvent;
+        return this.getPos(canvas, mouseEvt.clientX, mouseEvt.clientY);
     }
 
     private getTouchPos(canvas: HTMLCanvasElement, touch: Touch): { x: number; y: number } {
         const rect: ClientRect = canvas.getBoundingClientRect();
-        return {
-            x:
-                (touch.clientX - rect.left) /
-                (rect.right - rect.left) *
-                canvas.width,
-            y:
-                (touch.clientY - rect.bottom) /
-                (rect.top - rect.bottom) *
-                canvas.height,
-        };
-    }
-
-    private viewportToPixels(value: string, isHeight: boolean): number {
-        const parts: RegExpMatchArray | null = value.match(/([0-9\.]+)(vh|vw)/);
-        if (parts) {
-            const q: number = Number(parts[1]);
-            if (isHeight) {
-                return window.innerHeight * (q / 100);
-            } else {
-                return window.innerWidth * (q / 100);
-            }
-        }
-        return 0;
+        return this.getPos(canvas, touch.clientX, touch.clientY);
     }
 
     private getSize(): void {
