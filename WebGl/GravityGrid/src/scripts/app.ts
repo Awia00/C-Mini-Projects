@@ -1,3 +1,4 @@
+import '../styles/acrylic.scss';
 import '../styles/base.scss';
 
 import { IRenderable, Renderer } from './renderer';
