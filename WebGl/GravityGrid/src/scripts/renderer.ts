@@ -243,7 +243,7 @@ class Renderer implements IRenderable {
             this.gl.uniform1f(timePosition, (new Date().getTime() - this.start) / 1000);
 
             const gravityPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'gravity');
-            this.gl.uniform1f(gravityPosition, 50);
+            this.gl.uniform1f(gravityPosition, 70);
 
             const reachPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, 'reach');
             this.gl.uniform1f(reachPosition, 10000);
@@ -258,7 +258,7 @@ class Renderer implements IRenderable {
             for (let i: number = 0; i<7; i++) {
                 if (this.presses[i] && this.presses[i].id !== -1) {
                     const pressPosition: WebGLUniformLocation | null = this.gl.getUniformLocation(this.program, "presses["+presses+"]");
-                    this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/200);
+                    this.gl.uniform3f(pressPosition, this.presses[i].current.x, this.presses[i].current.y, this.presses[i].power/250);
                     presses++;
                 }
             }
