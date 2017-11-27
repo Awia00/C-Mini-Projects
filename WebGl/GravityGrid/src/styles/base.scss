@@ -38,7 +38,7 @@ div .horizontal-center {
     font-size: 3em;
     font-weight: 400;
     font-family: sans-serif;
-    color: #555;
+    color: #777;
     font-family: sans-serif;
 }
 
@@ -48,7 +48,7 @@ div .horizontal-center {
     font-size: 1.3em;
     font-weight: 400;
     font-family: sans-serif;
-    color: #555;
+    color: #777;
     font-family: sans-serif;
 }
 
@@ -60,11 +60,11 @@ div .horizontal-center {
     width: 100%;
 }
 
-.small {
+.heads-up-small {
+    bottom: -5px;
     display: inline-block;
     width: 25%;
     min-width: 300px;
-    overflow: eli;
     border-radius: 75px 75px 0px 0px;
 }
 
@@ -80,4 +80,26 @@ div .horizontal-center {
     height: 70px;
     display: inline-block;
     transition: all 1s;
+    color: #888;
+}
+
+a:link, a:visited {
+	color:inherit;
+}
+
+.list-inline>li:hover {
+	transition: all 1s;
+}
+
+.icon-facebook:hover {
+	color: white;
+	background-color:#3b5998;
+}
+
+.icon-linkedin:hover {
+	color: white;
+	background-color: #0077B5;
+}
+.icon-github:hover {
+	color: black;
 }
