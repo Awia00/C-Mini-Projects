@@ -1,3 +1,7 @@
+* {
+    line-height: 1.3;
+    margin: 0;
+}
 
 .no-scroll {
     overflow: hidden;
@@ -19,6 +23,8 @@
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 10;
 }
 
@@ -39,7 +45,6 @@ div .horizontal-center {
     font-weight: 400;
     font-family: sans-serif;
     color: #777;
-    font-family: sans-serif;
 }
 
 .subtitle {
@@ -49,7 +54,6 @@ div .horizontal-center {
     font-weight: 400;
     font-family: sans-serif;
     color: #777;
-    font-family: sans-serif;
 }
 
 .footer {
@@ -102,4 +106,27 @@ a:link, a:visited {
 }
 .icon-github:hover {
 	color: black;
+}
+
+@media screen and (max-width: 1024px) {
+    * {
+        line-height: 1.3;
+        margin: 0;
+    }
+    .title {
+        font-size: 4em;
+    }
+    .subtitle {
+        font-size: 2.3em;
+    }
+    .list-inline>li {
+        font-size: 1.7em;
+        width: 100px;
+        height: 100px;
+        line-height: 135px;
+    }
+    .heads-up-small {
+        min-width: 450px;
+    }
+    
 }
