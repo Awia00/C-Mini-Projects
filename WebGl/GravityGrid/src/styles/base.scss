@@ -69,7 +69,7 @@ div .horizontal-center {
 .heads-up-small {
     bottom: -5px;
     display: inline-block;
-    width: 25%;
+    width: 20%;
     min-width: 300px;
     border-radius: 75px 75px 0px 0px;
 }
@@ -79,14 +79,18 @@ div .horizontal-center {
 }
 
 .list-inline>li {
-    pointer-events:all;
     border-radius: 10%;
-    width: 70px;
-    line-height: 95px;
-    height: 70px;
+    width: 55px;
+    line-height: 75px;
+    height: 55px;
     display: inline-block;
     transition: all 1s;
     color: #888;
+    font-size: 0.75em;
+}
+
+a {
+    pointer-events: all;
 }
 
 a:link, a:visited {
