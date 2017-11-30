@@ -113,8 +113,18 @@ class Renderer implements IRenderable {
         }, false);
 
         this.canvas.addEventListener('mousemove', evt => {
-            const press: Press | null = this.findActiveMouse();
-            if (press) {
+            let press: Press | null = this.findActiveMouse();
+            if (!press) {
+                const id: number = this.takeFirstFreeIndexMouse();
+                if (id) {
+                    press = new Press(id);
+                    press.isMouse = true;
+                    press.current = this.getMousePos(this.canvas, evt);
+                    press.old = press.current;
+                    this.presses[id] = press;
+                }
+            }
+            else if (press) {
                 press.old = press.current;
                 press.current = this.getMousePos(this.canvas, evt);
             }
