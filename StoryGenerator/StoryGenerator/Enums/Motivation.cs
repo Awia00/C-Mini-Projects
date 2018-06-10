@@ -1,0 +1,29 @@
+﻿namespace StoryGenerator.Enums
+{
+    public enum Motivation
+    {
+        Jealousy,
+        Greed,
+        Lust,
+        Revenge,
+        Fear,
+        Money,
+        Honor,
+        Duty,
+        Dept,
+        GreaterGood,
+        Science,
+        Expectations,
+        ReligiousFanatism,
+        SelfDiscovery,
+        AWishToPutOthersInBadPosition,
+        AWishToProtectLovedOnes,
+        AWishToBreakFree,
+        AWishToGainAffection,
+        AWishToGainPower,
+        AWishToComeHome,
+        AWishToGainApproval,
+        AWishToProveWorth,
+        AWishToShowof,
+    }
+}
