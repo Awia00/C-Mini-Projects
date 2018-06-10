@@ -12,10 +12,16 @@
         Protects,
         Abducts,
         Ridicules,
+        Befriends,
+        FlirtsWith,
         LiesTo,
+        LearnsFrom,
         FleesFrom,
+        TravelsWith,
+        TeamsUpWith,
+        SurvivesWith,
         StealsFrom,
-        Terrorism,
+        HoldsHostage,
         GainsControlOf,
     }
 }

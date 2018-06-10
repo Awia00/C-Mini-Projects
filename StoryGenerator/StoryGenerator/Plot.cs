@@ -9,14 +9,18 @@ namespace StoryGenerator
     {
         private readonly IEnumerable<Adverbium> _actAdverbs;
         private readonly Act _act;
-        private readonly Motivation _motivation;
+        private readonly IEnumerable<Motivation> _motivations;
         private readonly Character _subject;
         private readonly Character _subjectMatter;
         public Plot()
         {
             _act = EnumHelper.GetRandomValue<Act>();
             _actAdverbs = new List<Adverbium>{EnumHelper.GetRandomValue<Adverbium>()};
-            _motivation = EnumHelper.GetRandomValue<Motivation>();
+            _motivations = new List<Motivation>
+            {
+                EnumHelper.GetRandomValue<Motivation>(),
+                EnumHelper.GetRandomValue<Motivation>()
+            };
             _subject = new Character();
             _subjectMatter = new Character();
         }
@@ -33,7 +37,7 @@ namespace StoryGenerator
             stringBuilder.Append(" ");
             stringBuilder.Append(_subjectMatter);
             stringBuilder.Append(" because of ");
-            stringBuilder.Append(_motivation);
+            stringBuilder.Append(string.Join(" and ", _motivations));
             
             return stringBuilder.ToString();
         }

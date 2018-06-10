@@ -14,5 +14,15 @@
         Woods,
         Farm,
         Ship,
+        Island,
+        Halloween,
+        NewYearsEve,
+        BusinessMeeting,
+        Christmas,
+        FamilyDinner,
+        Vacation,
+        Hurricane,
+        Flood,
+        Court,
     }
 }

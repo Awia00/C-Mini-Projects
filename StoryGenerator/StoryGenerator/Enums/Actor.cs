@@ -44,5 +44,6 @@ namespace StoryGenerator.Enums
         Journalist,
         Photographer,
         Soldier,
+        Native,
     }
 }
