@@ -17,6 +17,7 @@
         ReligiousFanatism,
         SelfDiscovery,
         Guilt,
+        SelfDefence,
         AWishToPutOthersInBadPosition,
         AWishToProtectLovedOnes,
         AWishToBreakFree,

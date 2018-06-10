@@ -13,6 +13,7 @@
         Abducts,
         Ridicules,
         Befriends,
+        Misunderstands,
         FlirtsWith,
         LiesTo,
         LearnsFrom,
