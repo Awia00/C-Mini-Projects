@@ -45,5 +45,10 @@ namespace StoryGenerator.Enums
         Photographer,
         Soldier,
         Native,
+        Painter,
+        Illustrator,
+        Producer,
+        Director,
+        Actor,
     }
 }
